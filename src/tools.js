@@ -1,5 +1,8 @@
 import { computed, reactive, ref } from "vue"
-import { set, useWindowSize } from "@vueuse/core"
+import { useWindowSize } from "@vueuse/core"
+import { shuffle, take } from "lodash-es"
+
+const files = JSON.parse(document.body.dataset.files)
 
 export const images = ref([])
 
@@ -12,7 +15,6 @@ function loadImage(filename) {
 }
 
 export async function loadImages() {
-    const files = JSON.parse(document.body.dataset.files)
     const promises = files.map(loadImage)
     images.value = await Promise.all(promises)
 }
@@ -28,6 +30,7 @@ export const settings = reactive({
     maxScale: 1,
     maxRotation: 0.2,
     dispersion: 0.5,
+    take: files.length,
 })
 
 function random(min, max) {
@@ -61,5 +64,7 @@ export function getImageConfig(image) {
 }
 
 export const imageConfigs = computed(() => {
-    return images.value.map(getImageConfig)
+    const shuffled = shuffle(images.value)
+    const subset = take(shuffled, settings.take)
+    return subset.map(getImageConfig)
 })
