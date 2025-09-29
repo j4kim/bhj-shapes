@@ -1,5 +1,5 @@
-import { computed, ref } from "vue"
-import { useWindowSize } from "@vueuse/core"
+import { computed, reactive, ref } from "vue"
+import { set, useWindowSize } from "@vueuse/core"
 
 export const images = ref([])
 
@@ -23,18 +23,31 @@ export const windowRatio = computed(
     () => windowSize.width.value / windowSize.height.value
 )
 
+export const settings = reactive({
+    minScale: 0.5,
+    maxScale: 1,
+})
+
+function random(min, max) {
+    return Math.random() * (max - min) + min
+}
+
 export function getImageConfig(image) {
     const ratio = image.width / image.height
     const ww = windowSize.width.value
     const wh = windowSize.height.value
-    const [maxW, maxH] =
-        ratio > windowRatio.value ? [ww, ww / ratio] : [wh * ratio, wh]
+    const maxW = ratio > windowRatio.value ? ww : wh * ratio
+    const scale = random(settings.minScale, settings.maxScale)
+    const width = maxW * scale
+    const height = width / ratio
+    const x = (ww - width) / 2
+    const y = (wh - height) / 2
     return {
         image,
-        x: (ww - maxW) / 2,
-        y: (wh - maxH) / 2,
-        width: maxW,
-        height: maxH,
+        x,
+        y,
+        width,
+        height,
         globalCompositeOperation: "multiply",
     }
 }
