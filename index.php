@@ -45,6 +45,7 @@ $files = array_values($files);
                 node.setAttrs({
                     width: 1000,
                     height: 1000,
+                    globalCompositeOperation: 'multiply',
                 });
                 layer.add(node);
             })
