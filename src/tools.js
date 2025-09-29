@@ -26,6 +26,8 @@ export const windowRatio = computed(
 export const settings = reactive({
     minScale: 0.5,
     maxScale: 1,
+    maxRotation: 0.2,
+    dispersion: 0.5,
 })
 
 function random(min, max) {
@@ -40,14 +42,20 @@ export function getImageConfig(image) {
     const scale = random(settings.minScale, settings.maxScale)
     const width = maxW * scale
     const height = width / ratio
-    const x = (ww - width) / 2
-    const y = (wh - height) / 2
+    const cx = ww / 2
+    const cy = wh / 2
+    const disp = settings.dispersion
+    const x = cx + random(-1 * cx * disp, cx * disp)
+    const y = cy + random(-1 * cy * disp, cy * disp)
     return {
         image,
         x,
         y,
+        offsetX: width / 2,
+        offsetY: height / 2,
         width,
         height,
+        rotation: random(0, 180 * settings.maxRotation),
         globalCompositeOperation: "multiply",
     }
 }
