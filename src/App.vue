@@ -18,6 +18,8 @@ const imageConfigs = computed(() => {
             ratio > windowRatio.value ? [ww, ww / ratio] : [wh * ratio, wh];
         return {
             image,
+            x: (ww - maxW) / 2,
+            y: (wh - maxH) / 2,
             width: maxW,
             height: maxH,
             globalCompositeOperation: "multiply",
