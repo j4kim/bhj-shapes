@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import usePHP from "vite-plugin-php";
 import tailwindcss from "@tailwindcss/vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
     base: "",
@@ -16,5 +17,6 @@ export default defineConfig({
                 },
             ],
         }),
+        vue(),
     ],
 });

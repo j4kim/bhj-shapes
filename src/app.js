@@ -1,17 +1,10 @@
-import Konva from "konva";
-import { getKonvaImage, loadImages, SIZE } from "./tools.js";
+import { createApp } from "vue";
+import App from "./App.vue";
+import VueKonva from "vue-konva";
+import { loadImages } from "./tools";
 
-const stage = new Konva.Stage({
-    container: "container",
-    width: SIZE,
-    height: SIZE,
-});
+const app = createApp(App);
+app.use(VueKonva);
+app.mount("#app");
 
-const layer = new Konva.Layer();
-stage.add(layer);
-
-const images = await loadImages();
-
-images.forEach(function (image, i) {
-    layer.add(getKonvaImage(image));
-});
+loadImages();
