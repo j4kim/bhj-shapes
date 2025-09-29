@@ -8,9 +8,9 @@ const open = ref(false)
 
 <template>
     <div class="bg-gray-200/60">
-        <div v-if="open" class="flex gap-4">
+        <div v-if="open" class="flex gap-6">
             <button @click="open = false">←</button>
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex gap-3 flex-wrap">
                 <Slider
                     v-model="settings.minScale"
                     label="Scale min"
@@ -28,6 +28,7 @@ const open = ref(false)
                     v-model="settings.take"
                     label="Shapes"
                     :max="files.length"
+                    :step="1"
                 />
             </div>
         </div>

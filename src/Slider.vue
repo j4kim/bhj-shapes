@@ -19,7 +19,10 @@ const model = defineModel({ type: Number })
 
 <template>
     <div class="flex flex-col">
-        <small>{{ label }}</small>
+        <small class="flex justify-between">
+            <span>{{ label }}</span>
+            <span class="opacity-50">{{ model }}</span>
+        </small>
         <input type="range" v-model.number="model" :min :max :step />
     </div>
 </template>
