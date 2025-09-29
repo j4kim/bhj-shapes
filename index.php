@@ -20,7 +20,7 @@ $files = array_values($files);
 <body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
     <div id="container"></div>
 
-    <script src="app.js"></script>
+    <script src="app.js" type="module"></script>
 </body>
 
 </html>
