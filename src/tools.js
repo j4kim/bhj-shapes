@@ -1,4 +1,4 @@
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { useStorage, useWindowSize } from "@vueuse/core"
 import { shuffle, take } from "lodash-es"
 
@@ -26,7 +26,6 @@ export const windowRatio = computed(
 )
 
 export const settings = useStorage("settings", {
-    open: false,
     minScale: 0.5,
     maxScale: 1,
     maxRotation: 0.2,
@@ -67,8 +66,12 @@ export function getImageConfig(image) {
     }
 }
 
-export const imageConfigs = computed(() => {
+export const imageConfigs = ref([])
+
+export function reload() {
     const shuffled = shuffle(images.value)
     const subset = take(shuffled, settings.value.take)
-    return subset.map(getImageConfig)
-})
+    imageConfigs.value = subset.map(getImageConfig)
+}
+
+watch([images, settings.value], reload, { immediate: true })
