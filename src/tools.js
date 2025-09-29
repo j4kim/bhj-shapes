@@ -2,7 +2,7 @@ import { computed, reactive, ref } from "vue"
 import { useWindowSize } from "@vueuse/core"
 import { shuffle, take } from "lodash-es"
 
-const files = JSON.parse(document.body.dataset.files)
+export const files = JSON.parse(document.body.dataset.files)
 
 export const images = ref([])
 
