@@ -1,0 +1,12 @@
+{
+  "name": "bhj-shapes",
+  "version": "1.0.0",
+  "type": "module",
+  "devDependencies": {
+    "vite": "^7.1.7",
+    "vite-plugin-php": "^2.0.3"
+  },
+  "scripts": {
+    "dev": "vite"
+  }
+}

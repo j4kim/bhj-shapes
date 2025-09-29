@@ -14,14 +14,14 @@ $files = array_values($files);
 
     <script src="https://unpkg.com/konva@10/konva.min.js"></script>
 
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="src/app.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 
 <body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
     <div id="container"></div>
 
-    <script src="app.js" type="module"></script>
+    <script src="src/app.js" type="module"></script>
 </body>
 
 </html>
