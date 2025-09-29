@@ -7,6 +7,7 @@
     "vite-plugin-php": "^2.0.3"
   },
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   }
 }
