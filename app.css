@@ -1,0 +1,7 @@
+body {
+    background-color: #fbfbfb;
+}
+
+#container canvas {
+    background-color: white !important;
+}
