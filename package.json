@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "tailwindcss": "^4.1.13",
     "vite": "^7.1.7",
     "vite-plugin-php": "^2.0.3",
     "vite-plugin-static-copy": "^3.1.2"
