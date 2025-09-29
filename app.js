@@ -1,6 +1,4 @@
-import { loadImages } from "./tools.js";
-
-const SIZE = 1000;
+import { getKonvaImage, loadImages, SIZE } from "./tools.js";
 
 const stage = new Konva.Stage({
     container: "container",
@@ -14,14 +12,5 @@ stage.add(layer);
 const images = await loadImages();
 
 images.forEach(function (image, i) {
-    const ratio = image.width / image.height;
-    const [width, height] =
-        ratio > 1 ? [SIZE, SIZE / ratio] : [SIZE * ratio, SIZE];
-    const shape = new Konva.Image({
-        image,
-        width,
-        height,
-        globalCompositeOperation: "multiply",
-    });
-    layer.add(shape);
+    layer.add(getKonvaImage(image));
 });
