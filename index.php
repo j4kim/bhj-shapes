@@ -1,3 +1,8 @@
+<?php
+$files = scandir("./shapes");
+$files = array_filter($files, fn(string $f) => !str_starts_with($f, "."));
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,7 +13,7 @@
 </head>
 
 <body>
-
+    <pre><?php var_dump($files) ?></pre>
 </body>
 
 </html>
