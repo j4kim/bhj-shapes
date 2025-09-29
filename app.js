@@ -1,12 +1,4 @@
-const files = JSON.parse(document.body.dataset.files);
-
-const promises = files.map((file) => {
-    return new Promise((resolve, reject) => {
-        const image = new Image();
-        image.src = `shapes/${file}`;
-        image.onload = () => resolve(image);
-    });
-});
+import { loadImages } from "./tools.js";
 
 const SIZE = 1000;
 
@@ -19,7 +11,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-const images = await Promise.all(promises);
+const images = await loadImages();
 
 images.forEach(function (image, i) {
     const ratio = image.width / image.height;
