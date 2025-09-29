@@ -7,10 +7,17 @@ const open = ref(false)
 </script>
 
 <template>
-    <div class="bg-gray-200/60">
-        <div v-if="open" class="flex gap-6">
-            <button @click="open = false">←</button>
-            <div class="flex gap-3 flex-wrap">
+    <div>
+        <div v-if="open" class="flex items-end gap-2">
+            <button
+                @click="open = false"
+                class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
+            >
+                ←
+            </button>
+            <div
+                class="flex gap-3 flex-wrap bg-gray-200/50 backdrop-blur-sm p-2"
+            >
                 <Slider
                     v-model="settings.minScale"
                     label="Scale min"
@@ -32,6 +39,12 @@ const open = ref(false)
                 />
             </div>
         </div>
-        <button v-else @click="open = true">→</button>
+        <button
+            v-else
+            @click="open = true"
+            class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
+        >
+            →
+        </button>
     </div>
 </template>
