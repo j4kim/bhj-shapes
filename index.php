@@ -1,6 +1,7 @@
 <?php
 $files = scandir("./shapes");
 $files = array_filter($files, fn(string $f) => !str_starts_with($f, "."));
+$files = array_values($files);
 ?>
 
 <!DOCTYPE html>
@@ -12,32 +13,42 @@ $files = array_filter($files, fn(string $f) => !str_starts_with($f, "."));
     <title>BHJ Shapes</title>
 
     <script src="https://unpkg.com/konva@10/konva.min.js"></script>
+
+    <style>
+        body {
+            background-color: #fbfbfb;
+        }
+
+        #container canvas {
+            background-color: white !important;
+        }
+    </style>
 </head>
 
-<body>
-    <pre><?php var_dump($files) ?></pre>
+<body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
     <div id="container"></div>
 
     <script>
-        var stage = new Konva.Stage({
+        const files = JSON.parse(document.body.dataset.files);
+
+        const stage = new Konva.Stage({
             container: 'container',
-            width: 500,
-            height: 500,
+            width: 1000,
+            height: 1000,
         });
 
-        var layer = new Konva.Layer();
 
-        var circle = new Konva.Circle({
-            x: stage.width() / 2,
-            y: stage.height() / 2,
-            radius: 70,
-            fill: 'red',
-            stroke: 'black',
-            strokeWidth: 4,
-        });
-
-        layer.add(circle);
-
+        const layer = new Konva.Layer();
+        files.forEach(function(file, i) {
+            Konva.Image.fromURL(`shapes/${file}`, function(node) {
+                console.log(file, i)
+                node.setAttrs({
+                    width: 1000,
+                    height: 1000,
+                });
+                layer.add(node);
+            })
+        })
         stage.add(layer);
     </script>
 </body>
