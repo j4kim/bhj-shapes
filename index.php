@@ -15,6 +15,7 @@ $files = array_values($files);
     <script src="https://unpkg.com/konva@10/konva.min.js"></script>
 
     <link rel="stylesheet" href="app.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 
 <body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
