@@ -16,7 +16,7 @@ $files = array_values($files);
 </head>
 
 <body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
-    <div id="container"></div>
+    <div id="app"></div>
 
     <script src="src/app.js" type="module"></script>
 </body>
