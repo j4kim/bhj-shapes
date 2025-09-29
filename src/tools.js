@@ -29,7 +29,8 @@ export const settings = reactive({
     minScale: 0.5,
     maxScale: 1,
     maxRotation: 0.2,
-    dispersion: 0.5,
+    dispersionX: 0.5,
+    dispersionY: 0.5,
     take: files.length,
 })
 
@@ -47,9 +48,10 @@ export function getImageConfig(image) {
     const height = width / ratio
     const cx = ww / 2
     const cy = wh / 2
-    const disp = settings.dispersion
-    const x = cx + random(-1 * cx * disp, cx * disp)
-    const y = cy + random(-1 * cy * disp, cy * disp)
+    const dispX = settings.dispersionX
+    const dispY = settings.dispersionY
+    const x = cx + random(-1 * cx * dispX, cx * dispX)
+    const y = cy + random(-1 * cy * dispY, cy * dispY)
     return {
         image,
         x,

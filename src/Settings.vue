@@ -22,7 +22,8 @@ const open = ref(false)
                     :max="2"
                 />
                 <Slider v-model="settings.maxRotation" label="Rotation" />
-                <Slider v-model="settings.dispersion" label="Dispersion" />
+                <Slider v-model="settings.dispersionX" label="Dispersion X" />
+                <Slider v-model="settings.dispersionY" label="Dispersion Y" />
                 <Slider
                     v-model="settings.take"
                     label="Shapes"
