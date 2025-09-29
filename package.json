@@ -15,6 +15,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@vueuse/core": "^13.9.0",
     "konva": "^10.0.2",
     "vue-konva": "^3.2.6"
   }

@@ -1,8 +1,7 @@
-export const SIZE = 1000;
+import { ref } from "vue";
 
-/**
- * @returns {Promise<HtmlImageElement[]>}
- */
+export const images = ref([]);
+
 export async function loadImages() {
     const files = JSON.parse(document.body.dataset.files);
 
@@ -14,21 +13,5 @@ export async function loadImages() {
         });
     });
 
-    return await Promise.all(promises);
-}
-
-/**
- * @param {HtmlImageElement} image
- * @returns {object}
- */
-export function getKonvaImage(image) {
-    const ratio = image.width / image.height;
-    const [width, height] =
-        ratio > 1 ? [SIZE, SIZE / ratio] : [SIZE * ratio, SIZE];
-    return {
-        image,
-        width,
-        height,
-        globalCompositeOperation: "multiply",
-    };
+    images.value = await Promise.all(promises);
 }
