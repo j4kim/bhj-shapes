@@ -1,5 +1,5 @@
-import { computed, reactive, ref } from "vue"
-import { useWindowSize } from "@vueuse/core"
+import { computed, ref } from "vue"
+import { useStorage, useWindowSize } from "@vueuse/core"
 import { shuffle, take } from "lodash-es"
 
 export const files = JSON.parse(document.body.dataset.files)
@@ -25,7 +25,7 @@ export const windowRatio = computed(
     () => windowSize.width.value / windowSize.height.value
 )
 
-export const settings = reactive({
+export const settings = useStorage("settings", {
     minScale: 0.5,
     maxScale: 1,
     maxRotation: 0.2,
@@ -43,13 +43,13 @@ export function getImageConfig(image) {
     const ww = windowSize.width.value
     const wh = windowSize.height.value
     const maxW = ratio > windowRatio.value ? ww : wh * ratio
-    const scale = random(settings.minScale, settings.maxScale)
+    const scale = random(settings.value.minScale, settings.value.maxScale)
     const width = maxW * scale
     const height = width / ratio
     const cx = ww / 2
     const cy = wh / 2
-    const dispX = settings.dispersionX
-    const dispY = settings.dispersionY
+    const dispX = settings.value.dispersionX
+    const dispY = settings.value.dispersionY
     const x = cx + random(-1 * cx * dispX, cx * dispX)
     const y = cy + random(-1 * cy * dispY, cy * dispY)
     return {
@@ -60,13 +60,13 @@ export function getImageConfig(image) {
         offsetY: height / 2,
         width,
         height,
-        rotation: random(0, 180 * settings.maxRotation),
+        rotation: random(0, 180 * settings.value.maxRotation),
         globalCompositeOperation: "multiply",
     }
 }
 
 export const imageConfigs = computed(() => {
     const shuffled = shuffle(images.value)
-    const subset = take(shuffled, settings.take)
+    const subset = take(shuffled, settings.value.take)
     return subset.map(getImageConfig)
 })
