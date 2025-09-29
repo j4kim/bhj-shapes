@@ -1,5 +1,3 @@
-import Konva from "konva";
-
 export const SIZE = 1000;
 
 /**
@@ -21,16 +19,16 @@ export async function loadImages() {
 
 /**
  * @param {HtmlImageElement} image
- * @returns {Konva.Image}
+ * @returns {object}
  */
 export function getKonvaImage(image) {
     const ratio = image.width / image.height;
     const [width, height] =
         ratio > 1 ? [SIZE, SIZE / ratio] : [SIZE * ratio, SIZE];
-    return new Konva.Image({
+    return {
         image,
         width,
         height,
         globalCompositeOperation: "multiply",
-    });
+    };
 }

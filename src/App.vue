@@ -1,28 +1,23 @@
 <script setup>
-import Konva from "konva";
-import { getKonvaImage, loadImages, SIZE } from "./tools.js";
-import { onMounted, useTemplateRef } from "vue";
+import { getKonvaImage, loadImages } from "./tools.js";
+import { ref } from "vue";
 
-const konvaContainer = useTemplateRef("konva-container");
+const stageSize = {
+    width: window.innerWidth,
+    height: window.innerHeight
+};
 
-onMounted(async () => {
-    const stage = new Konva.Stage({
-        container: konvaContainer.value,
-        width: SIZE,
-        height: SIZE,
-    });
+const images = ref([])
 
-    const layer = new Konva.Layer();
-    stage.add(layer);
-
-    const images = await loadImages();
-
-    images.forEach(function (image, i) {
-        layer.add(getKonvaImage(image));
-    });
-})
+loadImages().then(imgs => {
+    images.value = imgs.map(img => getKonvaImage(img))
+});
 </script>
 
 <template>
-    <div ref="konva-container"></div>
+    <v-stage :config="stageSize">
+        <v-layer>
+            <v-image v-for="img in images" v-bind="img"></v-image>
+        </v-layer>
+    </v-stage>
 </template>
