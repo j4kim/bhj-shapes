@@ -27,7 +27,12 @@ const open = useStorage("settings-open", false)
         >
             <Slider v-model="settings.minScale" label="Scale min" :max="2" />
             <Slider v-model="settings.maxScale" label="Scale max" :max="2" />
-            <Slider v-model="settings.maxRotation" label="Rotation" />
+            <Slider
+                v-model="settings.maxRotation"
+                label="Rotation"
+                :max="180"
+                :step="1"
+            />
             <Slider v-model="settings.dispersionX" label="Dispersion X" />
             <Slider v-model="settings.dispersionY" label="Dispersion Y" />
             <Slider

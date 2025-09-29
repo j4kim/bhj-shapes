@@ -28,7 +28,7 @@ export const windowRatio = computed(
 export const settings = useStorage("settings", {
     minScale: 0.5,
     maxScale: 1,
-    maxRotation: 0.2,
+    maxRotation: 45,
     dispersionX: 0.5,
     dispersionY: 0.5,
     take: files.length,
@@ -61,7 +61,10 @@ export function getImageConfig(image) {
         offsetY: height / 2,
         width,
         height,
-        rotation: random(0, 180 * settings.value.maxRotation),
+        rotation: random(
+            -1 * settings.value.maxRotation,
+            settings.value.maxRotation
+        ),
         globalCompositeOperation: settings.value.gco,
     }
 }
