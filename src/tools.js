@@ -26,6 +26,7 @@ export const windowRatio = computed(
 )
 
 export const settings = useStorage("settings", {
+    open: false,
     minScale: 0.5,
     maxScale: 1,
     maxRotation: 0.2,

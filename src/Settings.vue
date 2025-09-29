@@ -1,16 +1,13 @@
 <script setup>
-import { ref } from "vue"
 import { files, settings } from "./tools"
 import Slider from "./Slider.vue"
-
-const open = ref(false)
 </script>
 
 <template>
     <div>
-        <div v-if="open" class="flex items-end gap-2">
+        <div v-if="settings.open" class="flex items-end gap-2">
             <button
-                @click="open = false"
+                @click="settings.open = false"
                 class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
             >
                 ←
@@ -41,7 +38,7 @@ const open = ref(false)
         </div>
         <button
             v-else
-            @click="open = true"
+            @click="settings.open = true"
             class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
         >
             →
