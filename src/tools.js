@@ -33,6 +33,7 @@ export const settings = useStorage("settings", {
     dispersionX: 0.5,
     dispersionY: 0.5,
     take: files.length,
+    gco: "multiply",
 })
 
 function random(min, max) {
@@ -62,7 +63,7 @@ export function getImageConfig(image) {
         width,
         height,
         rotation: random(0, 180 * settings.value.maxRotation),
-        globalCompositeOperation: "multiply",
+        globalCompositeOperation: settings.value.gco,
     }
 }
 

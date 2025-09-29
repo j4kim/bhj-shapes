@@ -1,6 +1,7 @@
 <script setup>
 import { files, settings } from "./tools"
 import Slider from "./Slider.vue"
+import gco from "./gco"
 </script>
 
 <template>
@@ -34,6 +35,12 @@ import Slider from "./Slider.vue"
                     :max="files.length"
                     :step="1"
                 />
+                <div class="flex flex-col">
+                    <small>Blending mode</small>
+                    <select v-model="settings.gco">
+                        <option v-for="mode in gco">{{ mode }}</option>
+                    </select>
+                </div>
             </div>
         </div>
         <button
