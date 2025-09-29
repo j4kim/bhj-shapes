@@ -1,31 +1,5 @@
 <script setup>
-import { computed } from "vue";
-import { images } from "./tools";
-import { useWindowSize } from "@vueuse/core";
-
-const windowSize = useWindowSize();
-
-const windowRatio = computed(
-    () => windowSize.width.value / windowSize.height.value
-);
-
-const imageConfigs = computed(() => {
-    return images.value.map((image) => {
-        const ratio = image.width / image.height;
-        const ww = windowSize.width.value;
-        const wh = windowSize.height.value;
-        const [maxW, maxH] =
-            ratio > windowRatio.value ? [ww, ww / ratio] : [wh * ratio, wh];
-        return {
-            image,
-            x: (ww - maxW) / 2,
-            y: (wh - maxH) / 2,
-            width: maxW,
-            height: maxH,
-            globalCompositeOperation: "multiply",
-        };
-    });
-});
+import { imageConfigs, windowSize } from "./tools"
 </script>
 
 <template>
