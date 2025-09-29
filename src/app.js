@@ -1,3 +1,4 @@
+import Konva from "konva";
 import { getKonvaImage, loadImages, SIZE } from "./tools.js";
 
 const stage = new Konva.Stage({

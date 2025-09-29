@@ -12,5 +12,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "konva": "^10.0.2"
   }
 }

@@ -1,3 +1,5 @@
+import Konva from "konva";
+
 export const SIZE = 1000;
 
 /**

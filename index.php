@@ -11,9 +11,6 @@ $files = array_values($files);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHJ Shapes</title>
-
-    <script src="https://unpkg.com/konva@10/konva.min.js"></script>
-
     <link rel="stylesheet" href="src/app.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
