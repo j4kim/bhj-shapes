@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import DrawView from "./views/DrawView.vue";
-import ScrollView from "./views/ScrollView.vue";
+import Drawing from "./views/Drawing.vue";
+import Scroll from "./views/Scroll.vue";
 
 const routes = [
-    { path: "/", component: DrawView },
-    { path: "/scroll", component: ScrollView },
+    { path: "/", component: Drawing },
+    { path: "/scroll", component: Scroll },
 ];
 
 export const router = createRouter({
