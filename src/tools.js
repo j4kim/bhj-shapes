@@ -26,7 +26,7 @@ export const windowRatio = computed(
     () => windowSize.width.value / windowSize.height.value
 );
 
-export const settings = useStorage("settings", {
+export const storedSettings = useStorage("settings", {
     globalScale: 0.1,
     randomizeScale: 0.2,
     maxRotation: 45,
@@ -43,14 +43,14 @@ function random(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-export function getImageConfig(image) {
-    const scaleFactor = settings.value.randomizeScale;
-    const gScale = settings.value.globalScale;
+export function getImageConfig(image, settings) {
+    const scaleFactor = settings.randomizeScale;
+    const gScale = settings.globalScale;
     const scale = gScale * random(1 - scaleFactor, 1 + scaleFactor);
     const cx = windowSize.width.value / 2;
     const cy = windowSize.height.value / 2;
-    const dispX = settings.value.dispersionX;
-    const dispY = settings.value.dispersionY;
+    const dispX = settings.dispersionX;
+    const dispY = settings.dispersionY;
     const x = cx + random(-1 * cx * dispX, cx * dispX);
     const y = cy + random(-1 * cy * dispY, cy * dispY);
     return {
@@ -64,24 +64,19 @@ export function getImageConfig(image) {
         scaleY: scale,
         width: image.width,
         height: image.height,
-        rotation: random(
-            -1 * settings.value.maxRotation,
-            settings.value.maxRotation
-        ),
-        opacity: random(1 - settings.value.transparency, 1),
-        globalCompositeOperation: settings.value.gco,
+        rotation: random(-1 * settings.maxRotation, settings.maxRotation),
+        opacity: random(1 - settings.transparency, 1),
+        globalCompositeOperation: settings.gco,
     };
 }
 
 export const imageConfigs = ref([]);
 
-export function reload() {
+export function reload(settings) {
     const shuffled = shuffle(images.value);
-    const subset = take(shuffled, settings.value.take);
-    imageConfigs.value = subset.map(getImageConfig);
+    const subset = take(shuffled, settings.take);
+    imageConfigs.value = subset.map((img) => getImageConfig(img, settings));
 }
-
-watch([images, settings.value], reload, { immediate: true });
 
 export function restore(configs) {
     imageConfigs.value = configs.map((c) => {

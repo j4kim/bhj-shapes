@@ -1,6 +1,28 @@
 <script setup>
-import { imageConfigs, windowSize } from "./tools";
+import { files, imageConfigs, images, reload, windowSize } from "./tools";
 import Content from "./Content.vue";
+import { watch } from "vue";
+
+const settings = {
+    globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
+    randomizeScale: 0.1,
+    maxRotation: 45,
+    dispersionX: 0.8,
+    dispersionY: 0.8,
+    transparency: 0,
+    take: files.length,
+    gco: "multiply",
+};
+
+watch(
+    images,
+    () => {
+        if (images.value.length) {
+            reload(settings);
+        }
+    },
+    { immediate: true }
+);
 </script>
 
 <template>

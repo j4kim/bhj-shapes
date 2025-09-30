@@ -1,7 +1,24 @@
 <script setup>
 import { ref, useTemplateRef, watch } from "vue";
 import Settings from "./Settings.vue";
-import { enableTransformer, imageConfigs, windowSize } from "./tools";
+import {
+    enableTransformer,
+    imageConfigs,
+    images,
+    reload,
+    storedSettings,
+    windowSize,
+} from "./tools";
+
+watch(
+    [images, storedSettings.value],
+    () => {
+        if (images.value.length) {
+            reload(storedSettings.value);
+        }
+    },
+    { immediate: true }
+);
 
 const transformer = useTemplateRef("transformer");
 const selectedShapeName = ref("");
