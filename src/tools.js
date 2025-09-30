@@ -1,4 +1,4 @@
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { useStorage, useWindowSize } from "@vueuse/core";
 import { shuffle, take } from "lodash-es";
 
@@ -73,10 +73,14 @@ export function getImageConfig(image, settings) {
 
 export const imageConfigs = ref([]);
 
-export function reload(settings) {
+export function getShapes(settings) {
     const shuffled = settings.shuffle ? shuffle(images.value) : images.value;
     const subset = take(shuffled, settings.take);
-    imageConfigs.value = subset.map((img) => getImageConfig(img, settings));
+    return subset.map((img) => getImageConfig(img, settings));
+}
+
+export function reload() {
+    imageConfigs.value = getShapes(storedSettings.value);
 }
 
 export function restore(configs) {

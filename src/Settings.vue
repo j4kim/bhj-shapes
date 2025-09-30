@@ -54,7 +54,7 @@ function download(e) {
 <template>
     <div class="flex items-end gap-2">
         <button
-            @click="reload(storedSettings)"
+            @click="reload"
             class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
         >
             ⟳

@@ -14,7 +14,7 @@ watch(
     [images, storedSettings.value],
     () => {
         if (images.value.length) {
-            reload(storedSettings.value);
+            reload();
         }
     },
     { immediate: true }

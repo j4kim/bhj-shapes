@@ -1,5 +1,5 @@
 <script setup>
-import { files, imageConfigs, images, reload, windowSize } from "./tools";
+import { getShapes, images, windowSize } from "./tools";
 import Content from "./Content.vue";
 import { onMounted, ref, toRaw, watch } from "vue";
 import { gsap } from "gsap";
@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cloneDeep } from "lodash-es";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const shapes = ref([]);
 
 const initialState = ref([]);
 
@@ -28,8 +30,8 @@ function lerp(start, end, t) {
 }
 
 function updateShapes(progress) {
-    if (!imageConfigs.value.length) return;
-    imageConfigs.value.forEach((shape, i) => {
+    if (!shapes.value.length) return;
+    shapes.value.forEach((shape, i) => {
         const start = initialState.value[i];
         const end = endState[i];
         if (!start || !end) return;
@@ -63,8 +65,8 @@ watch(
     images,
     () => {
         if (images.value.length) {
-            reload(settings);
-            initialState.value = cloneDeep(toRaw(imageConfigs.value));
+            shapes.value = getShapes(settings);
+            initialState.value = cloneDeep(toRaw(shapes.value));
         }
     },
     { immediate: true }
@@ -81,7 +83,7 @@ watch(
         >
             <v-layer>
                 <v-image
-                    v-for="imageConfig in imageConfigs"
+                    v-for="imageConfig in shapes"
                     :config="imageConfig"
                 ></v-image>
             </v-layer>
