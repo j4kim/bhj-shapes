@@ -26,20 +26,6 @@ export const windowRatio = computed(
     () => windowSize.width.value / windowSize.height.value
 );
 
-export const storedSettings = useStorage("settings", {
-    globalScale: 0.1,
-    randomizeScale: 0.2,
-    maxRotation: 45,
-    dispersionX: 0.5,
-    dispersionY: 0.5,
-    transparency: 0,
-    take: files.length,
-    gco: "multiply",
-    shuffle: true,
-});
-
-export const enableTransformer = ref(false);
-
 function random(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -71,21 +57,8 @@ export function getImageConfig(image, settings) {
     };
 }
 
-export const imageConfigs = ref([]);
-
 export function getShapes(settings) {
     const shuffled = settings.shuffle ? shuffle(images.value) : images.value;
     const subset = take(shuffled, settings.take);
     return subset.map((img) => getImageConfig(img, settings));
-}
-
-export function reload() {
-    imageConfigs.value = getShapes(storedSettings.value);
-}
-
-export function restore(configs) {
-    imageConfigs.value = configs.map((c) => {
-        const image = images.value.find((img) => img.dataset.name == c.name);
-        return { ...c, image };
-    });
 }

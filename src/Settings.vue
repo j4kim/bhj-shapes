@@ -1,16 +1,12 @@
 <script setup>
-import {
-    enableTransformer,
-    files,
-    imageConfigs,
-    reload,
-    restore,
-    storedSettings,
-} from "./tools";
+import { files } from "./tools";
 import Slider from "./Slider.vue";
 import gco from "./gco";
 import { useStorage } from "@vueuse/core";
 import { ref } from "vue";
+import { useDrawStore } from "./stores/draw";
+
+const dStore = useDrawStore();
 
 const open = useStorage("settings-open", false);
 
@@ -26,14 +22,18 @@ function handleStoreChange(e) {
         const id = last ? last.id + 1 : 1;
         store.value.push({
             id,
-            imageConfigs: imageConfigs.value,
+            shapes: dStore.shapes,
         });
         selectedStored.value = null;
         alert("Stored with id " + id);
         return;
     }
     const config = store.value.find(({ id }) => id == value);
-    restore(config.imageConfigs);
+    if (!config) {
+        console.warn("no config found for id", id, "in store", store.value);
+        return;
+    }
+    dStore.restore(config.shapes);
 }
 
 function removeSelectedStored() {
@@ -47,14 +47,14 @@ function removeSelectedStored() {
 function download(e) {
     e.target.href =
         "data:text/json;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(imageConfigs.value));
+        encodeURIComponent(JSON.stringify(dStore.shapes));
 }
 </script>
 
 <template>
     <div class="flex items-end gap-2">
         <button
-            @click="reload"
+            @click="dStore.reload"
             class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
         >
             ⟳
@@ -70,41 +70,47 @@ function download(e) {
             class="flex gap-4 flex-wrap bg-gray-200/50 backdrop-blur-sm p-2 px-4"
         >
             <Slider
-                v-model="storedSettings.globalScale"
+                v-model="dStore.settings.globalScale"
                 label="Global scale"
                 :step="0.01"
                 :max="2"
             />
             <Slider
-                v-model="storedSettings.randomizeScale"
+                v-model="dStore.settings.randomizeScale"
                 label="Randomize scale"
             />
             <Slider
-                v-model="storedSettings.maxRotation"
+                v-model="dStore.settings.maxRotation"
                 label="Rotation"
                 :max="180"
                 :step="1"
             />
-            <Slider v-model="storedSettings.dispersionX" label="Dispersion X" />
-            <Slider v-model="storedSettings.dispersionY" label="Dispersion Y" />
             <Slider
-                v-model="storedSettings.transparency"
+                v-model="dStore.settings.dispersionX"
+                label="Dispersion X"
+            />
+            <Slider
+                v-model="dStore.settings.dispersionY"
+                label="Dispersion Y"
+            />
+            <Slider
+                v-model="dStore.settings.transparency"
                 label="Transparency"
             />
             <Slider
-                v-model="storedSettings.take"
+                v-model="dStore.settings.take"
                 label="Shapes"
                 :max="files.length"
                 :step="1"
             />
             <div class="flex flex-col">
                 <small>Blending mode</small>
-                <select v-model="storedSettings.gco" class="px-1 py-0 text-sm">
+                <select v-model="dStore.settings.gco" class="px-1 py-0 text-sm">
                     <option v-for="mode in gco">{{ mode }}</option>
                 </select>
             </div>
             <label class="flex items-center gap-1">
-                <input type="checkbox" v-model="enableTransformer" />
+                <input type="checkbox" v-model="dStore.enableTransformer" />
                 Transformer
             </label>
             <div class="flex flex-col">
