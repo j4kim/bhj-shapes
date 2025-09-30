@@ -31,6 +31,7 @@ export const settings = useStorage("settings", {
     maxRotation: 45,
     dispersionX: 0.5,
     dispersionY: 0.5,
+    transparency: 0,
     take: files.length,
     gco: "multiply",
 });
@@ -66,6 +67,7 @@ export function getImageConfig(image) {
             -1 * settings.value.maxRotation,
             settings.value.maxRotation
         ),
+        opacity: random(1 - settings.value.transparency, 1),
         globalCompositeOperation: settings.value.gco,
     };
 }

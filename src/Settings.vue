@@ -1,10 +1,10 @@
 <script setup>
-import { files, reload, settings } from "./tools"
-import Slider from "./Slider.vue"
-import gco from "./gco"
-import { useStorage } from "@vueuse/core"
+import { files, reload, settings } from "./tools";
+import Slider from "./Slider.vue";
+import gco from "./gco";
+import { useStorage } from "@vueuse/core";
 
-const open = useStorage("settings-open", false)
+const open = useStorage("settings-open", false);
 </script>
 
 <template>
@@ -30,7 +30,7 @@ const open = useStorage("settings-open", false)
                 label="Global scale"
                 :step="0.01"
             />
-            <Slider v-model="settings.randomizeScale" label="randomizeScale" />
+            <Slider v-model="settings.randomizeScale" label="Randomize scale" />
             <Slider
                 v-model="settings.maxRotation"
                 label="Rotation"
@@ -39,6 +39,7 @@ const open = useStorage("settings-open", false)
             />
             <Slider v-model="settings.dispersionX" label="Dispersion X" />
             <Slider v-model="settings.dispersionY" label="Dispersion Y" />
+            <Slider v-model="settings.transparency" label="Transparency" />
             <Slider
                 v-model="settings.take"
                 label="Shapes"
