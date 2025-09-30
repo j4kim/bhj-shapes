@@ -1,31 +1,61 @@
 <script setup>
 import { files, imageConfigs, images, reload, windowSize } from "./tools";
 import Content from "./Content.vue";
-import { onMounted, useTemplateRef, watch } from "vue";
+import { onMounted, ref, toRaw, watch } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cloneDeep } from "lodash-es";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const initialState = ref([]);
+
+const endState = [
+    {
+        name: "BRAS_1.png",
+        x: windowSize.width.value / 2,
+        y: windowSize.height.value / 2,
+        scaleX: 0.04,
+        scaleY: 0.04,
+        rotation: 0,
+    },
+];
+
+const attrs = ["x", "y", "scaleX", "scaleY", "rotation"];
+
+function lerp(start, end, t) {
+    return start + (end - start) * t;
+}
+
+function updateShapes(progress) {
+    if (!imageConfigs.value.length) return;
+    imageConfigs.value.forEach((shape, i) => {
+        const start = initialState.value[i];
+        const end = endState[i];
+        if (!start || !end) return;
+        attrs.forEach((attr) => {
+            shape[attr] = lerp(start[attr], end[attr], progress);
+        });
+    });
+}
 
 onMounted(() => {
     ScrollTrigger.create({
         trigger: document.body,
         start: "top top",
         end: "bottom bottom",
-        onUpdate: (self) => {
-            console.log(self.progress);
-        },
+        onUpdate: (self) => updateShapes(self.progress),
     });
 });
 
 const settings = {
     globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
     randomizeScale: 0.1,
-    maxRotation: 45,
+    maxRotation: 720,
     dispersionX: 0.8,
     dispersionY: 0.8,
     transparency: 0,
-    take: files.length,
+    take: 1, //files.length,
     gco: "multiply",
 };
 
@@ -34,6 +64,7 @@ watch(
     () => {
         if (images.value.length) {
             reload(settings);
+            initialState.value = cloneDeep(toRaw(imageConfigs.value));
         }
     },
     { immediate: true }
