@@ -1,20 +1,12 @@
 <script setup>
 import { ref, useTemplateRef, watch } from "vue";
 import Settings from "../components/Settings.vue";
-import { images, windowSize } from "../tools";
+import { windowSize } from "../tools";
 import { useDrawingStore } from "../stores/drawing";
 
 const drawing = useDrawingStore();
 
-watch(
-    [images, drawing.settings],
-    () => {
-        if (images.value.length) {
-            drawing.reload();
-        }
-    },
-    { immediate: true }
-);
+watch(drawing.settings, () => drawing.reload(), { immediate: true });
 
 const transformer = useTemplateRef("transformer");
 const selectedShapeName = ref("");

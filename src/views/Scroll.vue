@@ -1,5 +1,5 @@
 <script setup>
-import { getShapes, images, windowSize } from "../tools";
+import { getShapes, windowSize } from "../tools";
 import Content from "../components/Content.vue";
 import { onMounted, ref, toRaw, watch } from "vue";
 import { gsap } from "gsap";
@@ -8,9 +8,19 @@ import { cloneDeep } from "lodash-es";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const shapes = ref([]);
+const settings = {
+    globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
+    randomizeScale: 0.1,
+    maxRotation: 720,
+    dispersionX: 0.8,
+    dispersionY: 0.8,
+    transparency: 0,
+    take: 1, //imagesStore.files.length,
+    gco: "multiply",
+};
 
-const initialState = ref([]);
+const shapes = ref(getShapes(settings));
+const initialState = ref(cloneDeep(toRaw(shapes.value)));
 
 const endState = [
     {
@@ -50,28 +60,6 @@ onMounted(() => {
         onRefresh: (self) => updateShapes(self.progress),
     });
 });
-
-const settings = {
-    globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
-    randomizeScale: 0.1,
-    maxRotation: 720,
-    dispersionX: 0.8,
-    dispersionY: 0.8,
-    transparency: 0,
-    take: 1, //files.length,
-    gco: "multiply",
-};
-
-watch(
-    images,
-    () => {
-        if (images.value.length) {
-            shapes.value = getShapes(settings);
-            initialState.value = cloneDeep(toRaw(shapes.value));
-        }
-    },
-    { immediate: true }
-);
 </script>
 
 <template>

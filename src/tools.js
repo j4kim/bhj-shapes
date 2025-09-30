@@ -1,24 +1,7 @@
-import { computed, ref } from "vue";
-import { useStorage, useWindowSize } from "@vueuse/core";
+import { computed } from "vue";
+import { useWindowSize } from "@vueuse/core";
 import { shuffle, take } from "lodash-es";
-
-export const files = JSON.parse(document.body.dataset.files);
-
-export const images = ref([]);
-
-function loadImage(filename) {
-    return new Promise((resolve) => {
-        const image = new Image();
-        image.src = `shapes/${filename}`;
-        image.dataset.name = filename;
-        image.onload = () => resolve(image);
-    });
-}
-
-export async function loadImages() {
-    const promises = files.map(loadImage);
-    images.value = await Promise.all(promises);
-}
+import { useImagesStore } from "./stores/images";
 
 export const windowSize = useWindowSize();
 
@@ -58,7 +41,8 @@ export function getImageConfig(image, settings) {
 }
 
 export function getShapes(settings) {
-    const shuffled = settings.shuffle ? shuffle(images.value) : images.value;
+    const images = useImagesStore().images;
+    const shuffled = settings.shuffle ? shuffle(images) : images;
     const subset = take(shuffled, settings.take);
     return subset.map((img) => getImageConfig(img, settings));
 }

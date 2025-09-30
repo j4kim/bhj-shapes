@@ -1,11 +1,13 @@
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { files, getShapes, images } from "../tools";
+import { getShapes } from "../tools";
 import { useStorageStore } from "./storage";
+import { useImagesStore } from "./images";
 
 export const useDrawingStore = defineStore("drawing", () => {
     const storage = useStorageStore();
+    const imagesStore = useImagesStore();
 
     const settings = useStorage("settings", {
         globalScale: 0.1,
@@ -14,7 +16,7 @@ export const useDrawingStore = defineStore("drawing", () => {
         dispersionX: 0.5,
         dispersionY: 0.5,
         transparency: 0,
-        take: files.length,
+        take: imagesStore.files.length,
         gco: "multiply",
         shuffle: true,
     });
@@ -30,7 +32,7 @@ export const useDrawingStore = defineStore("drawing", () => {
 
     function restore(configs) {
         shapes.value = configs.map((c) => {
-            const image = images.value.find(
+            const image = imagesStore.images.value.find(
                 (img) => img.dataset.name == c.name
             );
             return { ...c, image };

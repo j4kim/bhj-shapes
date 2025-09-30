@@ -1,13 +1,14 @@
 <script setup>
-import { files } from "../tools";
 import Slider from "./Slider.vue";
 import gco from "../gco";
 import { useStorage } from "@vueuse/core";
 import { useDrawingStore } from "../stores/drawing";
 import { useStorageStore } from "../stores/storage";
+import { useImagesStore } from "../stores/images";
 
 const drawing = useDrawingStore();
 const storage = useStorageStore();
+const imagesStore = useImagesStore();
 
 const open = useStorage("settings-open", false);
 
@@ -67,7 +68,7 @@ function download(e) {
             <Slider
                 v-model="drawing.settings.take"
                 label="Shapes"
-                :max="files.length"
+                :max="imagesStore.files.length"
                 :step="1"
             />
             <div class="flex flex-col">
