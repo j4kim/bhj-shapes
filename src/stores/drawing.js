@@ -10,7 +10,7 @@ export const useDrawingStore = defineStore("drawing", () => {
     const imagesStore = useImagesStore();
     const tools = useToolsStore();
 
-    const settings = useStorage("settings", {
+    const settings = useStorage("bhj-settings", {
         globalScale: 0.1,
         randomizeScale: 0.2,
         maxRotation: 45,

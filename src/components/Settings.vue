@@ -9,7 +9,7 @@ const drawing = useDrawingStore();
 const storage = useStorageStore();
 const imagesStore = useImagesStore();
 
-const open = useStorage("settings-open", false);
+const open = useStorage("bhj-settings-open", false);
 
 function download(e) {
     e.target.href =
