@@ -1,10 +1,14 @@
 <script setup>
-import { getShapes, windowSize } from "../tools";
 import Content from "../components/Content.vue";
-import { onMounted, ref, toRaw, watch } from "vue";
+import { onMounted, ref, toRaw } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cloneDeep } from "lodash-es";
+import { useToolsStore } from "../stores/tools";
+import { useWindowSize } from "@vueuse/core";
+
+const windowSize = useWindowSize();
+const tools = useToolsStore();
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +23,7 @@ const settings = {
     gco: "multiply",
 };
 
-const shapes = ref(getShapes(settings));
+const shapes = ref(tools.getShapes(settings));
 const initialState = ref(cloneDeep(toRaw(shapes.value)));
 
 const endState = [

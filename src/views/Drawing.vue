@@ -1,10 +1,11 @@
 <script setup>
 import { ref, useTemplateRef, watch } from "vue";
 import Settings from "../components/Settings.vue";
-import { windowSize } from "../tools";
 import { useDrawingStore } from "../stores/drawing";
+import { useWindowSize } from "@vueuse/core";
 
 const drawing = useDrawingStore();
+const windowSize = useWindowSize();
 
 watch(drawing.settings, () => drawing.reload(), { immediate: true });
 
