@@ -35,8 +35,9 @@ export const settings = useStorage("settings", {
     transparency: 0,
     take: files.length,
     gco: "multiply",
-    transformer: false,
 });
+
+export const enableTransformer = ref(false);
 
 function random(min, max) {
     return Math.random() * (max - min) + min;
@@ -69,7 +70,6 @@ export function getImageConfig(image) {
         ),
         opacity: random(1 - settings.value.transparency, 1),
         globalCompositeOperation: settings.value.gco,
-        draggable: settings.value.transformer,
     };
 }
 

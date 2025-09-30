@@ -1,14 +1,12 @@
 <script setup>
-import { ref, useTemplateRef } from "vue";
+import { ref, useTemplateRef, watch } from "vue";
 import Settings from "./Settings.vue";
-import { imageConfigs, settings, windowSize } from "./tools";
+import { enableTransformer, imageConfigs, windowSize } from "./tools";
 
 const transformer = useTemplateRef("transformer");
 const selectedShapeName = ref("");
 
 function handleDragEnd(e) {
-    if (!settings.value.transformer) return;
-
     if (e.target.className !== "Image") return;
 
     const shape = imageConfigs.value.find((i) => i.name === e.target.name());
@@ -18,8 +16,6 @@ function handleDragEnd(e) {
 }
 
 function handleTransformEnd(e) {
-    if (!settings.value.transformer) return;
-
     // find element in our state
     const shape = imageConfigs.value.find(
         (i) => i.name === selectedShapeName.value
@@ -35,8 +31,6 @@ function handleTransformEnd(e) {
 }
 
 function updateTransformer() {
-    if (!settings.value.transformer) return;
-
     const transformerNode = transformer.value.getNode();
     const stage = transformerNode.getStage();
     const selected = selectedShapeName.value;
@@ -57,7 +51,7 @@ function updateTransformer() {
 }
 
 function handleStageMouseDown(e) {
-    if (!settings.value.transformer) return;
+    if (!enableTransformer.value) return;
 
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
@@ -83,6 +77,13 @@ function handleStageMouseDown(e) {
     }
     updateTransformer();
 }
+
+watch(enableTransformer, (val) => {
+    if (!val) {
+        selectedShapeName.value = "";
+        updateTransformer();
+    }
+});
 </script>
 
 <template>
@@ -99,6 +100,7 @@ function handleStageMouseDown(e) {
             <v-image
                 v-for="imageConfig in imageConfigs"
                 :config="imageConfig"
+                :draggable="enableTransformer"
                 @transformend="handleTransformEnd"
             ></v-image>
             <v-transformer ref="transformer" />

@@ -1,5 +1,12 @@
 <script setup>
-import { files, imageConfigs, reload, restore, settings } from "./tools";
+import {
+    enableTransformer,
+    files,
+    imageConfigs,
+    reload,
+    restore,
+    settings,
+} from "./tools";
 import Slider from "./Slider.vue";
 import gco from "./gco";
 import { useStorage } from "@vueuse/core";
@@ -85,7 +92,7 @@ function removeSelectedStored() {
                 </select>
             </div>
             <label class="flex items-center gap-1">
-                <input type="checkbox" v-model="settings.transformer" />
+                <input type="checkbox" v-model="enableTransformer" />
                 Transformer
             </label>
             <div class="flex flex-col">
