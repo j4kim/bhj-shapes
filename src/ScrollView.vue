@@ -7,11 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const content = useTemplateRef("content");
-
 onMounted(() => {
     ScrollTrigger.create({
-        trigger: content.value,
+        trigger: document.body,
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => {
@@ -58,7 +56,7 @@ watch(
             </v-layer>
         </v-stage>
     </div>
-    <div ref="content" class="relative z-10">
+    <div class="relative z-10 pt-48 pb-[100vh]">
         <Content class="bg-white/50 p-4 backdrop-blur-xs"></Content>
     </div>
 </template>

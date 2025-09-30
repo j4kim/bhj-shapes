@@ -1,5 +1,5 @@
 <template>
-    <div class="prose mx-auto mt-48 mb-[100vh]">
+    <div class="prose mx-auto">
         <h1>Lorem ipsum dolor sit amet consectetuer adipiscing elit</h1>
 
         <p>
