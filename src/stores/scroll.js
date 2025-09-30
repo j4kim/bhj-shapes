@@ -15,8 +15,7 @@ export const useScrollStore = defineStore("scroll", () => {
         return v * multiplier;
     }
 
-    // const take = imagesStore.images.length
-    const take = 10;
+    const take = imagesStore.images.length;
 
     const startSettings = {
         globalScale: scaleToScreen(0.15),
@@ -29,13 +28,24 @@ export const useScrollStore = defineStore("scroll", () => {
         gco: "multiply",
     };
 
-    const endSettings = {
+    const middleSettings = {
         globalScale: scaleToScreen(0.05),
         randomizeScale: 0,
         maxRotation: 0,
         dispersionX: 0,
         dispersionY: 0,
         transparency: 0,
+        take,
+        gco: "multiply",
+    };
+
+    const endSettings = {
+        globalScale: scaleToScreen(0.8),
+        randomizeScale: 1,
+        maxRotation: 360,
+        dispersionX: 5,
+        dispersionY: 5,
+        transparency: 1,
         take,
         gco: "multiply",
     };
@@ -93,7 +103,7 @@ export const useScrollStore = defineStore("scroll", () => {
         },
     ];
 
-    function fineTuneEnd(shapes) {
+    function fineTune(shapes) {
         shapes.forEach((shape, index) => {
             const tuning = fineTuning[index];
             if (!tuning) return;
@@ -106,19 +116,20 @@ export const useScrollStore = defineStore("scroll", () => {
 
     const shapes = ref(tools.getShapes(startSettings));
     const startState = cloneDeep(toRaw(shapes.value));
-    const endState = fineTuneEnd(tools.getShapes(endSettings));
+    const middleState = fineTune(tools.getShapes(middleSettings));
+    const endState = tools.getShapes(endSettings);
 
-    const attrs = ["x", "y", "scaleX", "scaleY", "rotation"];
+    const attrs = ["x", "y", "scaleX", "scaleY", "rotation", "opacity"];
 
     function lerp(start, end, t) {
         return start + (end - start) * t;
     }
 
-    function updateShapes(progress) {
+    function updateShapes(fromState, toState, progress) {
         if (!shapes.value.length) return;
         shapes.value.forEach((shape, i) => {
-            const start = startState[i];
-            const end = endState[i];
+            const start = fromState[i];
+            const end = toState[i];
             if (!start || !end) return;
             attrs.forEach((attr) => {
                 shape[attr] = lerp(start[attr], end[attr], progress);
@@ -126,5 +137,13 @@ export const useScrollStore = defineStore("scroll", () => {
         });
     }
 
-    return { shapes, updateShapes };
+    function updateShapes1(progress) {
+        return updateShapes(startState, middleState, progress);
+    }
+
+    function updateShapes2(progress) {
+        return updateShapes(middleState, endState, progress);
+    }
+
+    return { shapes, updateShapes1, updateShapes2 };
 });
