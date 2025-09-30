@@ -1,7 +1,24 @@
 <script setup>
 import { files, imageConfigs, images, reload, windowSize } from "./tools";
 import Content from "./Content.vue";
-import { watch } from "vue";
+import { onMounted, useTemplateRef, watch } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const content = useTemplateRef("content");
+
+onMounted(() => {
+    ScrollTrigger.create({
+        trigger: content.value,
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+            console.log(self.progress);
+        },
+    });
+});
 
 const settings = {
     globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
@@ -41,5 +58,7 @@ watch(
             </v-layer>
         </v-stage>
     </div>
-    <Content class="relative z-10 bg-white/50 p-4 backdrop-blur-xs"></Content>
+    <div ref="content" class="relative z-10">
+        <Content class="bg-white/50 p-4 backdrop-blur-xs"></Content>
+    </div>
 </template>

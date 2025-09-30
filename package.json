@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^13.9.0",
+    "gsap": "^3.13.0",
     "konva": "^10.0.2",
     "lodash-es": "^4.17.21",
     "vue-konva": "^3.2.6",
