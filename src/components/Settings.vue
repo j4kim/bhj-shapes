@@ -1,10 +1,10 @@
 <script setup>
-import { files } from "./tools";
+import { files } from "../tools";
 import Slider from "./Slider.vue";
-import gco from "./gco";
+import gco from "../gco";
 import { useStorage } from "@vueuse/core";
-import { useDrawingStore } from "./stores/drawing";
-import { useStorageStore } from "./stores/storage";
+import { useDrawingStore } from "../stores/drawing";
+import { useStorageStore } from "../stores/storage";
 
 const drawing = useDrawingStore();
 const storage = useStorageStore();

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, useTemplateRef, watch } from "vue";
-import Settings from "./Settings.vue";
-import { images, windowSize } from "./tools";
-import { useDrawingStore } from "./stores/drawing";
+import Settings from "../components/Settings.vue";
+import { images, windowSize } from "../tools";
+import { useDrawingStore } from "../stores/drawing";
 
 const drawing = useDrawingStore();
 

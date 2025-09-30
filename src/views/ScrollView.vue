@@ -1,6 +1,6 @@
 <script setup>
-import { getShapes, images, windowSize } from "./tools";
-import Content from "./Content.vue";
+import { getShapes, images, windowSize } from "../tools";
+import Content from "../components/Content.vue";
 import { onMounted, ref, toRaw, watch } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
