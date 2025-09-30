@@ -43,6 +43,12 @@ function removeSelectedStored() {
     }
     selectedStored.value = null;
 }
+
+function download(e) {
+    e.target.href =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(imageConfigs.value));
+}
 </script>
 
 <template>
@@ -116,6 +122,9 @@ function removeSelectedStored() {
                     </option>
                 </select>
             </div>
+            <a class="text-xs" download="scene.json" @click="download"
+                >Download json</a
+            >
         </div>
     </div>
 </template>
