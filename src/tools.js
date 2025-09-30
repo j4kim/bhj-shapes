@@ -35,6 +35,7 @@ export const storedSettings = useStorage("settings", {
     transparency: 0,
     take: files.length,
     gco: "multiply",
+    shuffle: true,
 });
 
 export const enableTransformer = ref(false);
@@ -73,7 +74,7 @@ export function getImageConfig(image, settings) {
 export const imageConfigs = ref([]);
 
 export function reload(settings) {
-    const shuffled = shuffle(images.value);
+    const shuffled = settings.shuffle ? shuffle(images.value) : images.value;
     const subset = take(shuffled, settings.take);
     imageConfigs.value = subset.map((img) => getImageConfig(img, settings));
 }
