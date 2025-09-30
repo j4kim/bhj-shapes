@@ -29,6 +29,7 @@ const open = useStorage("settings-open", false);
                 v-model="settings.globalScale"
                 label="Global scale"
                 :step="0.01"
+                :max="2"
             />
             <Slider v-model="settings.randomizeScale" label="Randomize scale" />
             <Slider
