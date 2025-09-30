@@ -10,12 +10,6 @@ const storage = useStorageStore();
 const imagesStore = useImagesStore();
 
 const open = useStorage("bhj-settings-open", false);
-
-function download(e) {
-    e.target.href =
-        "data:text/json;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(drawing.shapes));
-}
 </script>
 
 <template>
@@ -125,9 +119,6 @@ function download(e) {
                     </option>
                 </select>
             </div>
-            <a class="text-xs" download="scene.json" @click="download"
-                >Download json</a
-            >
         </div>
     </div>
 </template>
