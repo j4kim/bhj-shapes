@@ -1,29 +1,25 @@
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref, toRaw } from "vue";
+import { ref, toRaw } from "vue";
 import { useDrawingStore } from "./drawing";
 import { cloneDeep } from "lodash-es";
 
 export const useStorageStore = defineStore("storage", () => {
     const drawing = useDrawingStore();
 
+    const counter = useStorage("bhj-stored-counter", 1);
     const compositions = useStorage("bhj-stored-compositions", []);
 
     const selected = ref(null);
 
-    const nextId = computed(() => {
-        const last = compositions.value[compositions.value.length - 1];
-        return last ? last.id + 1 : 1;
-    });
-
     function storeCurrent() {
-        const id = nextId.value;
         compositions.value.push({
-            id,
+            id: counter.value,
             shapes: cloneDeep(toRaw(drawing.shapes)),
         });
         selected.value = null;
-        alert("Stored with id " + id);
+        alert("Stored with id " + counter.value);
+        counter.value = counter.value + 1;
     }
 
     function restore(id) {
