@@ -3,46 +3,13 @@ import { files } from "./tools";
 import Slider from "./Slider.vue";
 import gco from "./gco";
 import { useStorage } from "@vueuse/core";
-import { ref } from "vue";
 import { useDrawingStore } from "./stores/drawing";
+import { useStorageStore } from "./stores/storage";
 
 const drawing = useDrawingStore();
+const storage = useStorageStore();
 
 const open = useStorage("settings-open", false);
-
-const store = useStorage("settings-store", []);
-
-const selectedStored = ref();
-
-function handleStoreChange(e) {
-    const value = e.target.value;
-    if (!value) return;
-    if (value === "Store current") {
-        const last = store.value[store.value.length - 1];
-        const id = last ? last.id + 1 : 1;
-        store.value.push({
-            id,
-            shapes: drawing.shapes,
-        });
-        selectedStored.value = null;
-        alert("Stored with id " + id);
-        return;
-    }
-    const config = store.value.find(({ id }) => id == value);
-    if (!config) {
-        console.warn("no config found for id", id, "in store", store.value);
-        return;
-    }
-    drawing.restore(config.shapes);
-}
-
-function removeSelectedStored() {
-    const index = store.value.findIndex(({ id }) => id == selectedStored.value);
-    if (index > -1) {
-        store.value.splice(index, 1);
-    }
-    selectedStored.value = null;
-}
 
 function download(e) {
     e.target.href =
@@ -120,24 +87,24 @@ function download(e) {
                 <small class="flex justify-between">
                     Store
                     <button
-                        v-if="selectedStored > 0"
-                        @click="removeSelectedStored"
+                        v-if="storage.selected > 0"
+                        @click="storage.removeSelected"
                     >
                         ×
                     </button>
                 </small>
                 <select
-                    v-model="selectedStored"
-                    @input="handleStoreChange"
+                    v-model="storage.selected"
+                    @input="storage.handleChange"
                     class="px-1 py-0 text-sm"
                 >
                     <option></option>
                     <option>Store current</option>
                     <option
-                        v-for="storedConfig in store"
-                        :value="storedConfig.id"
+                        v-for="comp in storage.compositions"
+                        :value="comp.id"
                     >
-                        {{ storedConfig.id }}
+                        {{ comp.id }}
                     </option>
                 </select>
             </div>
