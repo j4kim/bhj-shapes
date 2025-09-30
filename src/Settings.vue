@@ -25,8 +25,12 @@ const open = useStorage("settings-open", false)
             v-if="open"
             class="flex gap-4 flex-wrap bg-gray-200/50 backdrop-blur-sm p-2 px-4"
         >
-            <Slider v-model="settings.minScale" label="Scale min" :max="2" />
-            <Slider v-model="settings.maxScale" label="Scale max" :max="2" />
+            <Slider
+                v-model="settings.globalScale"
+                label="Global scale"
+                :step="0.01"
+            />
+            <Slider v-model="settings.randomizeScale" label="randomizeScale" />
             <Slider
                 v-model="settings.maxRotation"
                 label="Rotation"

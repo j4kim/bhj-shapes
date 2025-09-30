@@ -26,8 +26,8 @@ export const windowRatio = computed(
 )
 
 export const settings = useStorage("settings", {
-    minScale: 0.5,
-    maxScale: 1,
+    globalScale: 0.1,
+    randomizeScale: 0.2,
     maxRotation: 45,
     dispersionX: 0.5,
     dispersionY: 0.5,
@@ -40,15 +40,16 @@ function random(min, max) {
 }
 
 export function getImageConfig(image) {
-    const ratio = image.width / image.height
-    const ww = windowSize.width.value
-    const wh = windowSize.height.value
-    const maxW = ratio > windowRatio.value ? ww : wh * ratio
-    const scale = random(settings.value.minScale, settings.value.maxScale)
-    const width = maxW * scale
-    const height = width / ratio
-    const cx = ww / 2
-    const cy = wh / 2
+    const defW = image.width * settings.value.globalScale
+    const defH = image.height * settings.value.globalScale
+    const scale = random(
+        1 - settings.value.randomizeScale,
+        1 + settings.value.randomizeScale
+    )
+    const width = defW * scale
+    const height = defH * scale
+    const cx = windowSize.width.value / 2
+    const cy = windowSize.height.value / 2
     const dispX = settings.value.dispersionX
     const dispY = settings.value.dispersionY
     const x = cx + random(-1 * cx * dispX, cx * dispX)
