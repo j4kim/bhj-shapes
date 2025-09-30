@@ -1,6 +1,5 @@
 <script setup>
 import Slider from "./Slider.vue";
-import gco from "../gco";
 import { useStorage } from "@vueuse/core";
 import { useDrawingStore } from "../stores/drawing";
 import { useStorageStore } from "../stores/storage";
@@ -77,7 +76,24 @@ function download(e) {
                     v-model="drawing.settings.gco"
                     class="px-1 py-0 text-sm"
                 >
-                    <option v-for="mode in gco">{{ mode }}</option>
+                    <option></option>
+                    <option>lighter</option>
+                    <option>xor</option>
+                    <option>multiply</option>
+                    <option>screen</option>
+                    <option>overlay</option>
+                    <option>darken</option>
+                    <option>lighten</option>
+                    <option>color-dodge</option>
+                    <option>color-burn</option>
+                    <option>hard-light</option>
+                    <option>soft-light</option>
+                    <option>difference</option>
+                    <option>exclusion</option>
+                    <option>hue</option>
+                    <option>saturation</option>
+                    <option>color</option>
+                    <option>luminosity</option>
                 </select>
             </div>
             <label class="flex items-center gap-1">
