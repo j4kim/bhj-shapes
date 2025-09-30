@@ -53,6 +53,10 @@ const open = useStorage("settings-open", false);
                     <option v-for="mode in gco">{{ mode }}</option>
                 </select>
             </div>
+            <label class="flex items-center gap-1">
+                <input type="checkbox" v-model="settings.transformer" />
+                Transformer
+            </label>
         </div>
     </div>
 </template>

@@ -10,6 +10,7 @@ function loadImage(filename) {
     return new Promise((resolve) => {
         const image = new Image();
         image.src = `shapes/${filename}`;
+        image.dataset.name = filename;
         image.onload = () => resolve(image);
     });
 }
@@ -34,6 +35,7 @@ export const settings = useStorage("settings", {
     transparency: 0,
     take: files.length,
     gco: "multiply",
+    transformer: false,
 });
 
 function random(min, max) {
@@ -52,6 +54,7 @@ export function getImageConfig(image) {
     const y = cy + random(-1 * cy * dispY, cy * dispY);
     return {
         image,
+        name: image.dataset.name,
         x,
         y,
         offsetX: image.width / 2,
@@ -66,6 +69,7 @@ export function getImageConfig(image) {
         ),
         opacity: random(1 - settings.value.transparency, 1),
         globalCompositeOperation: settings.value.gco,
+        draggable: settings.value.transformer,
     };
 }
 
