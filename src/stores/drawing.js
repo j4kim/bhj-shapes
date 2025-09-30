@@ -2,8 +2,11 @@ import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { files, getShapes, images } from "../tools";
+import { useStorageStore } from "./storage";
 
 export const useDrawingStore = defineStore("drawing", () => {
+    const storage = useStorageStore();
+
     const settings = useStorage("settings", {
         globalScale: 0.1,
         randomizeScale: 0.2,
@@ -21,6 +24,7 @@ export const useDrawingStore = defineStore("drawing", () => {
     const shapes = ref([]);
 
     function reload() {
+        storage.selected = null;
         shapes.value = getShapes(settings.value);
     }
 
