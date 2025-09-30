@@ -15,7 +15,7 @@ $files = array_values($files);
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 
-<body data-files="<?= htmlspecialchars(json_encode($files)) ?>">
+<body data-files="<?= htmlspecialchars(json_encode($files)) ?>" class="overflow-x-hidden">
     <div id="app"></div>
 
     <script src="src/app.js" type="module"></script>

@@ -93,7 +93,7 @@ function download(e) {
             />
             <div class="flex flex-col">
                 <small>Blending mode</small>
-                <select v-model="settings.gco">
+                <select v-model="settings.gco" class="px-1 py-0 text-sm">
                     <option v-for="mode in gco">{{ mode }}</option>
                 </select>
             </div>
@@ -111,7 +111,11 @@ function download(e) {
                         ×
                     </button>
                 </small>
-                <select v-model="selectedStored" @input="handleStoreChange">
+                <select
+                    v-model="selectedStored"
+                    @input="handleStoreChange"
+                    class="px-1 py-0 text-sm"
+                >
                     <option></option>
                     <option>Store current</option>
                     <option

@@ -54,32 +54,36 @@
         </p>
 
         <form action="#" method="post">
-            <fieldset>
-                <label for="name">Name:</label>
+            <p>
+                <label for="name">Name</label><br />
                 <input
                     type="text"
                     id="name"
-                    placeholder="Enter your 
-full name"
+                    placeholder="Enter your full name"
                 />
-
-                <label for="email">Email:</label>
+            </p>
+            <p>
+                <label for="email">Email</label><br />
                 <input
                     type="email"
                     id="email"
-                    placeholder="Enter 
-your email address"
+                    placeholder="Enter your email address"
                 />
-
-                <label for="message">Message:</label>
+            </p>
+            <p>
+                <label for="message">Message</label><br />
                 <textarea
                     id="message"
-                    placeholder="What's on your 
-mind?"
+                    placeholder="What's on your mind?"
                 ></textarea>
-
-                <input type="submit" value="Send message" />
-            </fieldset>
+            </p>
+            <p>
+                <input
+                    class="bg-gray-100 px-3 py-2"
+                    type="submit"
+                    value="Send message"
+                />
+            </p>
         </form>
 
         <p>
