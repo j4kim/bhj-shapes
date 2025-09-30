@@ -1,10 +1,41 @@
 <script setup>
-import { files, reload, settings } from "./tools";
+import { files, imageConfigs, reload, restore, settings } from "./tools";
 import Slider from "./Slider.vue";
 import gco from "./gco";
 import { useStorage } from "@vueuse/core";
+import { ref } from "vue";
 
 const open = useStorage("settings-open", false);
+
+const store = useStorage("settings-store", []);
+
+const selectedStored = ref();
+
+function handleStoreChange(e) {
+    const value = e.target.value;
+    if (!value) return;
+    if (value === "Store current") {
+        const last = store.value[store.value.length - 1];
+        const id = last ? last.id + 1 : 1;
+        store.value.push({
+            id,
+            imageConfigs: imageConfigs.value,
+        });
+        selectedStored.value = null;
+        alert("Stored with id " + id);
+        return;
+    }
+    const config = store.value.find(({ id }) => id == value);
+    restore(config.imageConfigs);
+}
+
+function removeSelectedStored() {
+    const index = store.value.findIndex(({ id }) => id == selectedStored.value);
+    if (index > -1) {
+        store.value.splice(index, 1);
+    }
+    selectedStored.value = null;
+}
 </script>
 
 <template>
@@ -57,6 +88,27 @@ const open = useStorage("settings-open", false);
                 <input type="checkbox" v-model="settings.transformer" />
                 Transformer
             </label>
+            <div class="flex flex-col">
+                <small class="flex justify-between">
+                    Store
+                    <button
+                        v-if="selectedStored > 0"
+                        @click="removeSelectedStored"
+                    >
+                        ×
+                    </button>
+                </small>
+                <select v-model="selectedStored" @input="handleStoreChange">
+                    <option></option>
+                    <option>Store current</option>
+                    <option
+                        v-for="storedConfig in store"
+                        :value="storedConfig.id"
+                    >
+                        {{ storedConfig.id }}
+                    </option>
+                </select>
+            </div>
         </div>
     </div>
 </template>

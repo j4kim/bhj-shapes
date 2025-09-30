@@ -6,6 +6,17 @@ import { imageConfigs, settings, windowSize } from "./tools";
 const transformer = useTemplateRef("transformer");
 const selectedShapeName = ref("");
 
+function handleDragEnd(e) {
+    if (!settings.value.transformer) return;
+
+    if (e.target.className !== "Image") return;
+
+    const shape = imageConfigs.value.find((i) => i.name === e.target.name());
+
+    shape.x = e.target.x();
+    shape.y = e.target.y();
+}
+
 function handleTransformEnd(e) {
     if (!settings.value.transformer) return;
 
@@ -82,6 +93,7 @@ function handleStageMouseDown(e) {
         }"
         @mousedown="handleStageMouseDown"
         @touchstart="handleStageMouseDown"
+        @dragend="handleDragEnd"
     >
         <v-layer>
             <v-image

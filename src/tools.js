@@ -82,3 +82,10 @@ export function reload() {
 }
 
 watch([images, settings.value], reload, { immediate: true });
+
+export function restore(configs) {
+    imageConfigs.value = configs.map((c) => {
+        const image = images.value.find((img) => img.dataset.name == c.name);
+        return { ...c, image };
+    });
+}
