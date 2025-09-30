@@ -17,8 +17,7 @@ export const useStorageStore = defineStore("storage", () => {
             id: counter.value,
             shapes: cloneDeep(toRaw(drawing.shapes)),
         });
-        selected.value = null;
-        alert("Stored with id " + counter.value);
+        selected.value = counter.value;
         counter.value = counter.value + 1;
     }
 
