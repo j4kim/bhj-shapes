@@ -47,6 +47,7 @@ onMounted(() => {
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => updateShapes(self.progress),
+        onRefresh: (self) => updateShapes(self.progress),
     });
 });
 
