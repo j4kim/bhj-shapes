@@ -2,15 +2,15 @@
 import { ref, useTemplateRef, watch } from "vue";
 import Settings from "./Settings.vue";
 import { images, windowSize } from "./tools";
-import { useDrawStore } from "./stores/draw";
+import { useDrawingStore } from "./stores/drawing";
 
-const dStore = useDrawStore();
+const drawing = useDrawingStore();
 
 watch(
-    [images, dStore.settings],
+    [images, drawing.settings],
     () => {
         if (images.value.length) {
-            dStore.reload();
+            drawing.reload();
         }
     },
     { immediate: true }
@@ -22,7 +22,7 @@ const selectedShapeName = ref("");
 function handleDragEnd(e) {
     if (e.target.className !== "Image") return;
 
-    const shape = dStore.shapes.find((i) => i.name === e.target.name());
+    const shape = drawing.shapes.find((i) => i.name === e.target.name());
 
     shape.x = e.target.x();
     shape.y = e.target.y();
@@ -30,7 +30,9 @@ function handleDragEnd(e) {
 
 function handleTransformEnd(e) {
     // find element in our state
-    const shape = dStore.shapes.find((i) => i.name === selectedShapeName.value);
+    const shape = drawing.shapes.find(
+        (i) => i.name === selectedShapeName.value
+    );
     if (!shape) return;
 
     // update the state with new properties
@@ -62,7 +64,7 @@ function updateTransformer() {
 }
 
 function handleStageMouseDown(e) {
-    if (!dStore.enableTransformer) return;
+    if (!drawing.enableTransformer) return;
 
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
@@ -80,7 +82,7 @@ function handleStageMouseDown(e) {
 
     // find clicked shape by its name
     const name = e.target.name();
-    const shape = dStore.shapes.find((r) => r.name === name);
+    const shape = drawing.shapes.find((r) => r.name === name);
     if (shape) {
         selectedShapeName.value = name;
     } else {
@@ -90,7 +92,7 @@ function handleStageMouseDown(e) {
 }
 
 watch(
-    () => dStore.enableTransformer,
+    () => drawing.enableTransformer,
     (val) => {
         if (!val) {
             selectedShapeName.value = "";
@@ -112,9 +114,9 @@ watch(
     >
         <v-layer>
             <v-image
-                v-for="shape in dStore.shapes"
+                v-for="shape in drawing.shapes"
                 :config="shape"
-                :draggable="dStore.enableTransformer"
+                :draggable="drawing.enableTransformer"
                 @transformend="handleTransformEnd"
             ></v-image>
             <v-transformer ref="transformer" />

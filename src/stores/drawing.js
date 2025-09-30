@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { files, getShapes, images } from "../tools";
 
-export const useDrawStore = defineStore("draw", () => {
+export const useDrawingStore = defineStore("drawing", () => {
     const settings = useStorage("settings", {
         globalScale: 0.1,
         randomizeScale: 0.2,
