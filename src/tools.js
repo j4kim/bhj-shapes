@@ -41,14 +41,9 @@ function random(min, max) {
 }
 
 export function getImageConfig(image) {
-    const defW = image.width * settings.value.globalScale;
-    const defH = image.height * settings.value.globalScale;
-    const scale = random(
-        1 - settings.value.randomizeScale,
-        1 + settings.value.randomizeScale
-    );
-    const width = defW * scale;
-    const height = defH * scale;
+    const scaleFactor = settings.value.randomizeScale;
+    const gScale = settings.value.globalScale;
+    const scale = gScale * random(1 - scaleFactor, 1 + scaleFactor);
     const cx = windowSize.width.value / 2;
     const cy = windowSize.height.value / 2;
     const dispX = settings.value.dispersionX;
@@ -59,10 +54,12 @@ export function getImageConfig(image) {
         image,
         x,
         y,
-        offsetX: width / 2,
-        offsetY: height / 2,
-        width,
-        height,
+        offsetX: image.width / 2,
+        offsetY: image.width / 2,
+        scaleX: scale,
+        scaleY: scale,
+        width: image.width,
+        height: image.height,
         rotation: random(
             -1 * settings.value.maxRotation,
             settings.value.maxRotation
