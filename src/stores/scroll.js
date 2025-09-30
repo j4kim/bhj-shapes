@@ -10,31 +10,103 @@ export const useScrollStore = defineStore("scroll", () => {
     const tools = useToolsStore();
     const imagesStore = useImagesStore();
 
+    function scaleToScreen(v) {
+        const multiplier = windowSize.width.value < 600 ? 0.5 : 1;
+        return v * multiplier;
+    }
+
+    // const take = imagesStore.images.length
+    const take = 10;
+
     const startSettings = {
-        globalScale: windowSize.width.value < 600 ? 0.05 : 0.1,
-        randomizeScale: 0.1,
+        globalScale: scaleToScreen(0.15),
+        randomizeScale: 0.2,
         maxRotation: 720,
         dispersionX: 0.8,
         dispersionY: 0.8,
         transparency: 0,
-        take: imagesStore.files.length,
+        take,
         gco: "multiply",
     };
 
     const endSettings = {
-        globalScale: windowSize.width.value < 600 ? 0.025 : 0.05,
+        globalScale: scaleToScreen(0.05),
         randomizeScale: 0,
         maxRotation: 0,
         dispersionX: 0,
         dispersionY: 0,
         transparency: 0,
-        take: imagesStore.files.length,
+        take,
         gco: "multiply",
     };
 
+    const fineTuning = [
+        {
+            // BRAS_1
+            x: scaleToScreen(-100),
+        },
+        {
+            // BRAS_2
+            x: scaleToScreen(100),
+        },
+        {
+            // FORME
+            y: scaleToScreen(30),
+            scaleX: scaleToScreen(-0.02),
+            scaleY: scaleToScreen(-0.02),
+        },
+        {
+            // LAC
+            y: scaleToScreen(60),
+        },
+        {
+            // LUNE
+            x: scaleToScreen(60),
+            y: scaleToScreen(-200),
+        },
+        {
+            // NEZ
+            y: scaleToScreen(-120),
+        },
+        {
+            // PIED
+            x: scaleToScreen(-100),
+            y: scaleToScreen(150),
+        },
+        {
+            // PIED_2
+            x: scaleToScreen(100),
+            y: scaleToScreen(200),
+        },
+        {
+            // YEUX_1
+            x: scaleToScreen(-100),
+            y: scaleToScreen(-50),
+        },
+        {
+            // YEUX_2
+            x: scaleToScreen(100),
+            y: scaleToScreen(-80),
+            rotation: 30,
+            scaleX: scaleToScreen(0.03),
+            scaleY: scaleToScreen(0.03),
+        },
+    ];
+
+    function fineTuneEnd(shapes) {
+        shapes.forEach((shape, index) => {
+            const tuning = fineTuning[index];
+            if (!tuning) return;
+            for (const key in tuning) {
+                shape[key] = shape[key] + tuning[key];
+            }
+        });
+        return shapes;
+    }
+
     const shapes = ref(tools.getShapes(startSettings));
     const startState = cloneDeep(toRaw(shapes.value));
-    const endState = tools.getShapes(endSettings);
+    const endState = fineTuneEnd(tools.getShapes(endSettings));
 
     const attrs = ["x", "y", "scaleX", "scaleY", "rotation"];
 
