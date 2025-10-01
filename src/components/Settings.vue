@@ -4,6 +4,7 @@ import { useStorage } from "@vueuse/core";
 import { useDrawingStore } from "../stores/drawing";
 import { useImagesStore } from "../stores/images";
 import Storage from "./Storage.vue";
+import Library from "./Library.vue";
 
 const drawing = useDrawingStore();
 const imagesStore = useImagesStore();
@@ -93,7 +94,8 @@ const open = useStorage("bhj-settings-open", false);
                 <input type="checkbox" v-model="drawing.enableTransformer" />
                 Transformer
             </label>
-            <Storage></Storage>
+            <Storage />
+            <Library />
         </div>
     </div>
 </template>
