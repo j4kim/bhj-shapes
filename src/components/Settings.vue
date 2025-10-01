@@ -2,11 +2,11 @@
 import Slider from "./Slider.vue";
 import { useStorage } from "@vueuse/core";
 import { useDrawingStore } from "../stores/drawing";
-import { useStorageStore } from "../stores/storage";
 import { useImagesStore } from "../stores/images";
+import Storage from "./Storage.vue";
+import Library from "./Library.vue";
 
 const drawing = useDrawingStore();
-const storage = useStorageStore();
 const imagesStore = useImagesStore();
 
 const open = useStorage("bhj-settings-open", false);
@@ -61,7 +61,7 @@ const open = useStorage("bhj-settings-open", false);
             <Slider
                 v-model="drawing.settings.take"
                 label="Shapes"
-                :max="imagesStore.files.length"
+                :max="imagesStore.selectedNames.length"
                 :step="1"
             />
             <div class="flex flex-col">
@@ -94,31 +94,8 @@ const open = useStorage("bhj-settings-open", false);
                 <input type="checkbox" v-model="drawing.enableTransformer" />
                 Transformer
             </label>
-            <div class="flex flex-col">
-                <small class="flex justify-between">
-                    Store
-                    <button
-                        v-if="storage.selected > 0"
-                        @click="storage.removeSelected"
-                    >
-                        ×
-                    </button>
-                </small>
-                <select
-                    v-model="storage.selected"
-                    @input="storage.handleChange"
-                    class="px-1 py-0 text-sm"
-                >
-                    <option></option>
-                    <option>Store current</option>
-                    <option
-                        v-for="comp in storage.compositions"
-                        :value="comp.id"
-                    >
-                        {{ comp.id }}
-                    </option>
-                </select>
-            </div>
+            <Storage />
+            <Library />
         </div>
     </div>
 </template>

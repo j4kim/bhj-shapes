@@ -1,3 +1,4 @@
+import path from "node:path";
 import { defineConfig } from "vite";
 import usePHP from "vite-plugin-php";
 import tailwindcss from "@tailwindcss/vite";
@@ -19,4 +20,9 @@ export default defineConfig({
         }),
         vue(),
     ],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+        },
+    },
 });

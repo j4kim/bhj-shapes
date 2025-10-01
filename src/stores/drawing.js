@@ -28,16 +28,14 @@ export const useDrawingStore = defineStore("drawing", () => {
 
     function reload() {
         storage.selected = null;
-        shapes.value = tools.getShapes(settings.value);
+        shapes.value = tools.getShapes(settings.value, true);
     }
 
     function restore(configs) {
-        shapes.value = configs.map((c) => {
-            const image = imagesStore.images.find(
-                (img) => img.dataset.name == c.name
-            );
-            return { ...c, image };
-        });
+        shapes.value = configs.map((c) => ({
+            ...c,
+            image: imagesStore.getImage(c.name),
+        }));
     }
 
     return {

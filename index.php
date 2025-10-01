@@ -11,7 +11,7 @@ $files = array_values($files);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHJ Shapes</title>
-    <link rel="stylesheet" href="src/app.css">
+    <link rel="stylesheet" href="src/css/app.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 

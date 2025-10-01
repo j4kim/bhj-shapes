@@ -37,8 +37,9 @@ export const useToolsStore = defineStore("tools", () => {
         };
     }
 
-    function getShapes(settings) {
-        const images = useImagesStore().images;
+    function getShapes(settings, selectedOnly = false) {
+        const imgStore = useImagesStore();
+        const images = selectedOnly ? imgStore.selectedImages : imgStore.images;
         const shuffled = settings.shuffle ? shuffle(images) : images;
         const subset = take(shuffled, settings.take);
         return subset.map((img) => getImageConfig(img, settings));
