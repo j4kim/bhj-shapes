@@ -55,7 +55,7 @@ onMounted(() => {
     <div ref="footer" class="h-[400vh]"></div>
     <RouterLink
         to="/"
-        class="absolute top-0 right-0 px-1 text-sm z-20 opacity-50 hover:underline"
+        class="absolute top-0 right-0 px-1 text-sm z-20 opacity-50 hover:underline bg-white/40 backdrop-blur-sm"
         >randomizer</RouterLink
     >
 </template>

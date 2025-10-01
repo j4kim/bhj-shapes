@@ -119,7 +119,7 @@ watch(
     <Settings class="absolute bottom-0 left-0 p-2"></Settings>
     <RouterLink
         to="scroll"
-        class="absolute top-0 right-0 px-1 text-sm opacity-50 hover:underline"
+        class="absolute top-0 right-0 px-1 text-sm opacity-50 hover:underline bg-white/40 backdrop-blur-sm select-none"
         >scroll</RouterLink
     >
 </template>
