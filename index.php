@@ -1,4 +1,6 @@
 <?php
+$toasts = [];
+
 if (isset($_FILES["images"])) {
     $images = $_FILES["images"];
     $count = count($images["name"]);
@@ -7,6 +9,7 @@ if (isset($_FILES["images"])) {
         $tmp_name = $images["tmp_name"][$i];
         $dst_name = "shapes/" . $name;
         if (file_exists($dst_name)) {
+            $toasts[] = ["type" => "warning", "message" => "A file \"$dst_name\" already exists."];
             continue;
         }
         move_uploaded_file($tmp_name, $dst_name);
@@ -32,7 +35,10 @@ usort($files, function ($a, $b) {
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 
-<body data-files="<?= htmlspecialchars(json_encode($files)) ?>" class="overflow-x-hidden">
+<body
+    data-files="<?= htmlspecialchars(json_encode($files)) ?>"
+    data-toasts="<?= htmlspecialchars(json_encode($toasts)) ?>"
+    class="overflow-x-hidden">
     <div id="app"></div>
 
     <script src="src/app.js" type="module"></script>
