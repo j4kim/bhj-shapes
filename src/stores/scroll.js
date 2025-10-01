@@ -3,20 +3,18 @@ import { cloneDeep } from "lodash-es";
 import { ref, toRaw } from "vue";
 import { defineStore } from "pinia";
 import { useToolsStore } from "./tools";
-import { useImagesStore } from "./images";
 import { easeInOutSine, easeInSine } from "easing-utils";
 
 export const useScrollStore = defineStore("scroll", () => {
     const windowSize = useWindowSize();
     const tools = useToolsStore();
-    const imagesStore = useImagesStore();
 
     function scaleToScreen(v) {
         const multiplier = windowSize.width.value < 600 ? 0.5 : 1;
         return v * multiplier;
     }
 
-    const take = imagesStore.images.length;
+    const take = 10;
 
     const startSettings = {
         globalScale: scaleToScreen(0.15),
