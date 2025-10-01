@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWindowSize } from "@vueuse/core";
 import { useScrollStore } from "../stores/scroll";
+import { RouterLink } from "vue-router";
 
 const windowSize = useWindowSize();
 const scroll = useScrollStore();
@@ -52,4 +53,9 @@ onMounted(() => {
         <Content class="bg-white/60 p-4 backdrop-blur-xs"></Content>
     </div>
     <div ref="footer" class="h-[400vh]"></div>
+    <RouterLink
+        to="/"
+        class="absolute top-0 right-0 px-1 text-sm z-20 opacity-50 hover:underline"
+        >randomizer</RouterLink
+    >
 </template>

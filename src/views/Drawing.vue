@@ -3,6 +3,7 @@ import { ref, useTemplateRef, watch } from "vue";
 import Settings from "../components/Settings.vue";
 import { useDrawingStore } from "../stores/drawing";
 import { useWindowSize } from "@vueuse/core";
+import { RouterLink } from "vue-router";
 
 const drawing = useDrawingStore();
 const windowSize = useWindowSize();
@@ -116,4 +117,9 @@ watch(
         </v-layer>
     </v-stage>
     <Settings class="absolute bottom-0 left-0 p-2"></Settings>
+    <RouterLink
+        to="scroll"
+        class="absolute top-0 right-0 px-1 text-sm opacity-50 hover:underline"
+        >scroll</RouterLink
+    >
 </template>
