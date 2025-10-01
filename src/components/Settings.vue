@@ -16,15 +16,18 @@ const open = useStorage("bhj-settings-open", false);
 <template>
     <div class="flex items-end gap-2">
         <div class="flex gap-2 shrink-0">
-            <RotateCw @click="drawing.reload" class="m-1 hover:opacity-60" />
-            <Settings2
-                v-if="!open"
-                @click="open = true"
-                class="m-1 hover:opacity-60"
-            />
-            <X v-if="open" @click="open = false" class="m-1 hover:opacity-60" />
+            <div class="p-1 hover:opacity-60 bg-white/20 backdrop-blur-sm">
+                <RotateCw @click="drawing.reload" />
+            </div>
+            <div class="p-1 hover:opacity-60 bg-white/20 backdrop-blur-sm">
+                <Settings2 v-if="!open" @click="open = true" />
+                <X v-if="open" @click="open = false" />
+            </div>
         </div>
-        <div v-if="open" class="flex gap-4 flex-wrap backdrop-blur-sm p-2 px-4">
+        <div
+            v-if="open"
+            class="flex gap-4 flex-wrap bg-white/20 backdrop-blur-sm p-2 px-4"
+        >
             <Slider
                 v-model="drawing.settings.globalScale"
                 label="Global scale"
