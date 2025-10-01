@@ -45,7 +45,7 @@ function toggle(name) {
                 @update:modelValue="toggle(name)"
                 :modelValue="imageStore.selectedNames.includes(name)"
             >
-                {{ name }}
+                <img :src="imageStore.getImage(name).src" class="w-4 h-4 object-contain"></img> {{ name }}
             </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
     </DropdownMenu>
