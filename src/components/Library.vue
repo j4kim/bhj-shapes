@@ -7,6 +7,11 @@ import DropdownMenuLabel from "./ui/dropdown-menu/DropdownMenuLabel.vue";
 import DropdownMenuSeparator from "./ui/dropdown-menu/DropdownMenuSeparator.vue";
 import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
 import { onClickOutside } from "@vueuse/core";
+import { useImagesStore } from "@/stores/images";
+import { useDrawingStore } from "@/stores/drawing";
+
+const imageStore = useImagesStore();
+const drawing = useDrawingStore();
 
 const menu = useTemplateRef("menu");
 
@@ -16,16 +21,15 @@ onClickOutside(menu, () => (open.value = false), {
     ignore: ["[data-reka-popper-content-wrapper]"],
 });
 
-const imageNames = ref(["yolo", "yala"]);
-
-const selected = ref(["yolo"]);
-
 function toggle(name) {
-    if (selected.value.includes(name)) {
-        selected.value.splice(selected.value.indexOf(name), 1);
+    if (imageStore.selectedNames.includes(name)) {
+        imageStore.selectedNames = imageStore.selectedNames.filter(
+            (n) => n !== name
+        );
     } else {
-        selected.value.push(name);
+        imageStore.selectedNames.push(name);
     }
+    drawing.settings.take = imageStore.selectedNames.length;
 }
 </script>
 
@@ -36,10 +40,10 @@ function toggle(name) {
             <DropdownMenuLabel>Shapes</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
-                v-for="name in imageNames"
+                v-for="name in imageStore.imageNames"
                 :value="name"
                 @update:modelValue="toggle(name)"
-                :modelValue="selected.includes(name)"
+                :modelValue="imageStore.selectedNames.includes(name)"
             >
                 {{ name }}
             </DropdownMenuCheckboxItem>

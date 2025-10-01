@@ -61,7 +61,7 @@ const open = useStorage("bhj-settings-open", false);
             <Slider
                 v-model="drawing.settings.take"
                 label="Shapes"
-                :max="imagesStore.files.length"
+                :max="imagesStore.selectedNames.length"
                 :step="1"
             />
             <div class="flex flex-col">

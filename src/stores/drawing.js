@@ -28,7 +28,7 @@ export const useDrawingStore = defineStore("drawing", () => {
 
     function reload() {
         storage.selected = null;
-        shapes.value = tools.getShapes(settings.value);
+        shapes.value = tools.getShapes(settings.value, true);
     }
 
     function restore(configs) {
