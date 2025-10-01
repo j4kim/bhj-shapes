@@ -1,24 +1,13 @@
 <script setup>
 import { ref, useTemplateRef, watch } from "vue";
-import Settings from "./Settings.vue";
-import {
-    enableTransformer,
-    imageConfigs,
-    images,
-    reload,
-    storedSettings,
-    windowSize,
-} from "./tools";
+import Settings from "../components/Settings.vue";
+import { useDrawingStore } from "../stores/drawing";
+import { useWindowSize } from "@vueuse/core";
 
-watch(
-    [images, storedSettings.value],
-    () => {
-        if (images.value.length) {
-            reload();
-        }
-    },
-    { immediate: true }
-);
+const drawing = useDrawingStore();
+const windowSize = useWindowSize();
+
+watch(drawing.settings, () => drawing.reload(), { immediate: true });
 
 const transformer = useTemplateRef("transformer");
 const selectedShapeName = ref("");
@@ -26,7 +15,7 @@ const selectedShapeName = ref("");
 function handleDragEnd(e) {
     if (e.target.className !== "Image") return;
 
-    const shape = imageConfigs.value.find((i) => i.name === e.target.name());
+    const shape = drawing.shapes.find((i) => i.name === e.target.name());
 
     shape.x = e.target.x();
     shape.y = e.target.y();
@@ -34,7 +23,7 @@ function handleDragEnd(e) {
 
 function handleTransformEnd(e) {
     // find element in our state
-    const shape = imageConfigs.value.find(
+    const shape = drawing.shapes.find(
         (i) => i.name === selectedShapeName.value
     );
     if (!shape) return;
@@ -68,7 +57,7 @@ function updateTransformer() {
 }
 
 function handleStageMouseDown(e) {
-    if (!enableTransformer.value) return;
+    if (!drawing.enableTransformer) return;
 
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
@@ -86,7 +75,7 @@ function handleStageMouseDown(e) {
 
     // find clicked shape by its name
     const name = e.target.name();
-    const shape = imageConfigs.value.find((r) => r.name === name);
+    const shape = drawing.shapes.find((r) => r.name === name);
     if (shape) {
         selectedShapeName.value = name;
     } else {
@@ -95,12 +84,15 @@ function handleStageMouseDown(e) {
     updateTransformer();
 }
 
-watch(enableTransformer, (val) => {
-    if (!val) {
-        selectedShapeName.value = "";
-        updateTransformer();
+watch(
+    () => drawing.enableTransformer,
+    (val) => {
+        if (!val) {
+            selectedShapeName.value = "";
+            updateTransformer();
+        }
     }
-});
+);
 </script>
 
 <template>
@@ -115,9 +107,9 @@ watch(enableTransformer, (val) => {
     >
         <v-layer>
             <v-image
-                v-for="imageConfig in imageConfigs"
-                :config="imageConfig"
-                :draggable="enableTransformer"
+                v-for="shape in drawing.shapes"
+                :config="shape"
+                :draggable="drawing.enableTransformer"
                 @transformend="handleTransformEnd"
             ></v-image>
             <v-transformer ref="transformer" />
