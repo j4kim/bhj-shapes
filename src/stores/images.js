@@ -14,7 +14,9 @@ export const useImagesStore = defineStore("images", () => {
     const selectedNames = useStorage("bhj-selected-image-names", []);
 
     const selectedImages = computed(() => {
-        return selectedNames.value.map((name) => getImage(name));
+        return selectedNames.value
+            .map((name) => getImage(name))
+            .filter((i) => i);
     });
 
     function loadImage(filename) {

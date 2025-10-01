@@ -9,6 +9,7 @@ import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
 import { onClickOutside } from "@vueuse/core";
 import { useImagesStore } from "@/stores/images";
 import { useDrawingStore } from "@/stores/drawing";
+import UploadImages from "./UploadImages.vue";
 
 const imageStore = useImagesStore();
 const drawing = useDrawingStore();
@@ -47,6 +48,10 @@ function toggle(name) {
             >
                 <img :src="imageStore.getImage(name).src" class="w-4 h-4 object-contain"></img> {{ name }}
             </DropdownMenuCheckboxItem>
+
+            <DropdownMenuLabel>Upload images</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <UploadImages />
         </DropdownMenuContent>
     </DropdownMenu>
 </template>
