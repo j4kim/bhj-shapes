@@ -4,6 +4,7 @@ import { ref, toRaw } from "vue";
 import { defineStore } from "pinia";
 import { useToolsStore } from "./tools";
 import { useImagesStore } from "./images";
+import { easeInOutSine, easeInSine } from "easing-utils";
 
 export const useScrollStore = defineStore("scroll", () => {
     const windowSize = useWindowSize();
@@ -138,11 +139,11 @@ export const useScrollStore = defineStore("scroll", () => {
     }
 
     function updateShapes1(progress) {
-        return updateShapes(startState, middleState, progress);
+        return updateShapes(startState, middleState, easeInOutSine(progress));
     }
 
     function updateShapes2(progress) {
-        return updateShapes(middleState, endState, progress);
+        return updateShapes(middleState, endState, easeInSine(progress));
     }
 
     return { shapes, updateShapes1, updateShapes2 };
