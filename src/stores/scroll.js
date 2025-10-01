@@ -19,8 +19,8 @@ export const useScrollStore = defineStore("scroll", () => {
     const take = imagesStore.images.length;
 
     const startSettings = {
-        globalScale: scaleToScreen(0.15),
-        randomizeScale: 0.2,
+        globalScale: scaleToScreen(-0.3),
+        randomizeScale: 0.5,
         maxRotation: 720,
         dispersionX: 1,
         dispersionY: 1,
@@ -41,9 +41,9 @@ export const useScrollStore = defineStore("scroll", () => {
     };
 
     const endSettings = {
-        globalScale: scaleToScreen(0.8),
-        randomizeScale: 1,
-        maxRotation: 360,
+        globalScale: scaleToScreen(-1),
+        randomizeScale: 0.5,
+        maxRotation: 540,
         dispersionX: 5,
         dispersionY: 5,
         transparency: 1,
