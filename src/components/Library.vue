@@ -49,7 +49,6 @@ function toggle(name) {
                 <img :src="imageStore.getImage(name).src" class="w-4 h-4 object-contain"></img> {{ name }}
             </DropdownMenuCheckboxItem>
 
-            <DropdownMenuLabel>Upload images</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <UploadImages />
         </DropdownMenuContent>

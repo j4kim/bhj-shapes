@@ -8,7 +8,9 @@ const form = useTemplateRef("form");
 <template>
     <form ref="form" method="post" enctype="multipart/form-data">
         <label>
-            <DropdownMenuItem>Select files</DropdownMenuItem>
+            <DropdownMenuItem class="font-medium"
+                >Upload images</DropdownMenuItem
+            >
             <input
                 type="file"
                 name="images[]"
