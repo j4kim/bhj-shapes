@@ -20,5 +20,9 @@ export const useImagesStore = defineStore("images", () => {
         images.value = await Promise.all(promises);
     }
 
-    return { files, images, loadImages };
+    function getImage(name) {
+        return images.value.find((img) => img.dataset.name == name);
+    }
+
+    return { files, images, loadImages, getImage };
 });
