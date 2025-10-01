@@ -5,6 +5,7 @@ import { useDrawingStore } from "../stores/drawing";
 import { useImagesStore } from "../stores/images";
 import Storage from "./Storage.vue";
 import Library from "./Library.vue";
+import { RotateCw, Settings2, X } from "lucide-vue-next";
 
 const drawing = useDrawingStore();
 const imagesStore = useImagesStore();
@@ -14,22 +15,16 @@ const open = useStorage("bhj-settings-open", false);
 
 <template>
     <div class="flex items-end gap-2">
-        <button
-            @click="drawing.reload"
-            class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
-        >
-            ⟳
-        </button>
-        <button
-            @click="open = !open"
-            class="bg-gray-200/50 backdrop-blur-sm px-2 py-1"
-        >
-            {{ open ? "←" : "→" }}
-        </button>
-        <div
-            v-if="open"
-            class="flex gap-4 flex-wrap bg-gray-200/50 backdrop-blur-sm p-2 px-4"
-        >
+        <div class="flex gap-2 shrink-0">
+            <RotateCw @click="drawing.reload" class="m-1 hover:opacity-60" />
+            <Settings2
+                v-if="!open"
+                @click="open = true"
+                class="m-1 hover:opacity-60"
+            />
+            <X v-if="open" @click="open = false" class="m-1 hover:opacity-60" />
+        </div>
+        <div v-if="open" class="flex gap-4 flex-wrap backdrop-blur-sm p-2 px-4">
             <Slider
                 v-model="drawing.settings.globalScale"
                 label="Global scale"
