@@ -1,6 +1,6 @@
 <script setup>
 import Content from "../components/Content.vue";
-import { onMounted, ref, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWindowSize } from "@vueuse/core";
@@ -22,6 +22,13 @@ const vImages = useTemplateRef("v-images");
 const step = ref(1);
 const progress = ref(0);
 
+const states = computed(() => {
+    return [
+        [scroll.startState, scroll.middleState],
+        [scroll.middleState, scroll.endState],
+    ][step.value - 1];
+});
+
 const animateStep = (i, ease) => (scroll) => {
     step.value = i;
     progress.value = ease(scroll.progress);
@@ -32,17 +39,15 @@ const animateStep1 = animateStep(1, easeInOutSine);
 const animateStep2 = animateStep(2, easeInSine);
 
 onMounted(() => {
-    const anim = new Konva.Animation((frame) => {
-        vImages.value.forEach((vImage, index) => {
-            const states = [
-                [scroll.startState, scroll.middleState],
-                [scroll.middleState, scroll.endState],
-            ][step.value - 1];
-            const attrs = scroll.getShapeAttrs(index, states, progress.value);
-            vImage.getNode().setAttrs(attrs);
-        });
+    vImages.value.forEach((vImage, index) => {
+        const node = vImage.getNode();
+        const anim = new Konva.Animation((frame) => {
+            node.setAttrs(
+                scroll.getShapeAttrs(index, states.value, progress.value)
+            );
+        }, node.getLayer());
+        anim.start();
     });
-    anim.start();
 
     ScrollTrigger.create({
         trigger: content.value,
