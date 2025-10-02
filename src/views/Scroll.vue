@@ -21,7 +21,6 @@ onMounted(() => {
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => scroll.updateShapes1(self.progress),
-        onRefresh: (self) => scroll.updateShapes1(self.progress),
     });
 
     ScrollTrigger.create({
