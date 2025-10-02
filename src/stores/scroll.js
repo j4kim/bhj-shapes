@@ -3,7 +3,6 @@ import { cloneDeep } from "lodash-es";
 import { ref, toRaw } from "vue";
 import { defineStore } from "pinia";
 import { useToolsStore } from "./tools";
-import { easeInOutSine, easeInSine } from "easing-utils";
 
 export const useScrollStore = defineStore("scroll", () => {
     const windowSize = useWindowSize();
@@ -124,25 +123,21 @@ export const useScrollStore = defineStore("scroll", () => {
         return start + (end - start) * t;
     }
 
-    function updateShapes(fromState, toState, progress) {
-        if (!shapes.value.length) return;
-        shapes.value.forEach((shape, i) => {
-            const start = fromState[i];
-            const end = toState[i];
-            if (!start || !end) return;
-            attrs.forEach((attr) => {
-                shape[attr] = lerp(start[attr], end[attr], progress);
-            });
+    function getShapeAttrs(shapeIndex, fromToStates, progress) {
+        const start = fromToStates[0][shapeIndex];
+        const end = fromToStates[1][shapeIndex];
+        const values = [];
+        attrs.forEach((attr) => {
+            values[attr] = lerp(start[attr], end[attr], progress);
         });
+        return values;
     }
 
-    function updateShapes1(progress) {
-        return updateShapes(startState, middleState, easeInOutSine(progress));
-    }
-
-    function updateShapes2(progress) {
-        return updateShapes(middleState, endState, easeInSine(progress));
-    }
-
-    return { shapes, updateShapes1, updateShapes2 };
+    return {
+        shapes,
+        startState,
+        middleState,
+        endState,
+        getShapeAttrs,
+    };
 });

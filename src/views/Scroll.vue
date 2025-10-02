@@ -1,11 +1,13 @@
 <script setup>
 import Content from "../components/Content.vue";
-import { onMounted, useTemplateRef } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWindowSize } from "@vueuse/core";
 import { useScrollStore } from "../stores/scroll";
 import { RouterLink } from "vue-router";
+import Konva from "konva";
+import { easeInOutSine, easeInSine } from "easing-utils";
 
 const windowSize = useWindowSize();
 const scroll = useScrollStore();
@@ -15,20 +17,47 @@ const footer = useTemplateRef("footer");
 
 gsap.registerPlugin(ScrollTrigger);
 
+const vImages = useTemplateRef("v-images");
+
+const step = ref(1);
+const progress = ref(0);
+
+const animateStep = (i, ease) => (scroll) => {
+    step.value = i;
+    progress.value = ease(scroll.progress);
+};
+
+const animateStep1 = animateStep(1, easeInOutSine);
+
+const animateStep2 = animateStep(2, easeInSine);
+
 onMounted(() => {
+    const anim = new Konva.Animation((frame) => {
+        vImages.value.forEach((vImage, index) => {
+            const states = [
+                [scroll.startState, scroll.middleState],
+                [scroll.middleState, scroll.endState],
+            ][step.value - 1];
+            const attrs = scroll.getShapeAttrs(index, states, progress.value);
+            vImage.getNode().setAttrs(attrs);
+        });
+    });
+    anim.start();
+
     ScrollTrigger.create({
         trigger: content.value,
         start: "top top",
         end: "bottom bottom",
-        onUpdate: (self) => scroll.updateShapes1(self.progress),
-        onRefresh: (self) => scroll.updateShapes1(self.progress),
+        onUpdate: animateStep1,
+        onEnter: animateStep1,
     });
 
     ScrollTrigger.create({
         trigger: footer.value,
         start: "top center",
         end: "bottom bottom",
-        onUpdate: (self) => scroll.updateShapes2(self.progress),
+        onUpdate: animateStep2,
+        onEnter: animateStep2,
     });
 });
 </script>
@@ -45,6 +74,7 @@ onMounted(() => {
                 <v-image
                     v-for="imageConfig in scroll.shapes"
                     :config="imageConfig"
+                    ref="v-images"
                 ></v-image>
             </v-layer>
         </v-stage>
