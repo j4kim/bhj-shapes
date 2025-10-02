@@ -39,7 +39,7 @@ export const useScrollStore = defineStore("scroll", () => {
     };
 
     const endSettings = {
-        globalScale: scaleToScreen(0.8),
+        globalScale: scaleToScreen(-0.8),
         randomizeScale: 1,
         maxRotation: 360,
         dispersionX: 5,
