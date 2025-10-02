@@ -52,7 +52,7 @@ onMounted(() => {
     <div ref="content" class="relative z-10 pt-48 pb-[100vh]">
         <Content class="bg-white/60 p-4 backdrop-blur-xs"></Content>
     </div>
-    <div ref="footer" class="h-[400vh]"></div>
+    <div ref="footer" class="relative z-10 h-[400vh]"></div>
     <RouterLink
         to="/"
         class="absolute top-0 right-0 px-1 text-sm z-20 opacity-50 hover:underline bg-white/40 backdrop-blur-sm"
